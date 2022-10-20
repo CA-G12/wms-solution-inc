@@ -1,5 +1,5 @@
-import { Product } from 'models/ProductModel';
-import { ProductInterface } from 'interfaces/ProductInterface';
+import Product from 'models/ProductModel';
+import { Product as ProductInterface } from 'interfaces/ProductInterface';
 
 export const update = async (product: ProductInterface) => {
   const { id, title, description, icon, price, discount } = product;

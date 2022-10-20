@@ -5,6 +5,4 @@ export interface Product {
   icon: string;
   price: number;
   discount: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
