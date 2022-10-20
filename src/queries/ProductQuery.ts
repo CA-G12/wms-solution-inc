@@ -1,7 +1,7 @@
 import { Product } from 'models/ProductModel';
-import { InferAttributes } from 'sequelize/types/model';
+import { ProductInterface } from 'interfaces/ProductInterface';
 
-export const update = async (product: InferAttributes<Product>) => {
+export const update = async (product: ProductInterface) => {
   const { id, title, description, icon, price, discount } = product;
   try {
     const result = await Product.update(
