@@ -6,7 +6,7 @@ export class AuthHelper {
   generateToken(payload: string) {
     return new Promise((resolve, reject) => {
       jwt.sign(
-        payload,
+        { id: payload },
         config.secretKey,
         { expiresIn: '8h' },
         (error, token) => {
