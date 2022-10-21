@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export class AuthHelper {
-  generateToken(payload: string) {
+  static generateToken(payload: string) {
     return new Promise((resolve, reject) => {
       jwt.sign(
         { id: payload },
@@ -16,7 +16,7 @@ export class AuthHelper {
     });
   }
 
-  verifyToken(token: string) {
+  static verifyToken(token: string) {
     return new Promise((resolve, reject) => {
       jwt.verify(token, config.secretKey, (error, decoded) => {
         return error ? reject(error) : resolve(decoded);
@@ -24,7 +24,7 @@ export class AuthHelper {
     });
   }
 
-  checkPassword(password: string, userPassword: string) {
+  static checkPassword(password: string, userPassword: string) {
     return bcrypt.compare(password, userPassword);
   }
 }
