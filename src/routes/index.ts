@@ -5,8 +5,7 @@ import userRouter from './UserRoute';
 
 const router = Router();
 
-router.use(authRouter);
-router.use(userRouter);
+router.use(authRouter, userRouter);
 
 router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
   const exception = err as GenericError;
@@ -15,7 +14,7 @@ router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
     error:
       exception.name === 'GenericError'
         ? exception.message
-        : 'Internal Server Error'
+        : 'Internal Server Error' + exception.message
   });
 });
 
