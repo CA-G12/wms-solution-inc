@@ -62,3 +62,39 @@ export const login = async (
     next(exception);
   }
 };
+
+export const checkLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const authHelper = new AuthHelper();
+
+    const { token } = req.cookies;
+    if (!token) throw new GenericError('Unauthorized', 401);
+
+    const { id }: any = await authHelper.verifyToken(token);
+    if (!id) throw new GenericError('Unauthorized', 401);
+
+    const user = await userQuery.getUser({
+      filter: { id },
+      attributes: ['id', 'username', 'email', 'password', 'role']
+    });
+
+    if (!user) throw new GenericError('Internal Server Error', 500);
+
+    res.status(401).json({
+      statusCode: 200,
+      message: 'success',
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
