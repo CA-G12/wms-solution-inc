@@ -14,7 +14,7 @@ router.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
     error:
       exception.name === 'GenericError'
         ? exception.message
-        : 'Internal Server Error' + exception.message
+        : 'Internal Server Error'
   });
 });
 
