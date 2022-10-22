@@ -1,20 +1,38 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
-import { sequelize } from '../db/Database';
-export default class TransactionProduct extends Model {
-  declare id: CreationOptional<number>;
-}
+import { TransactionStatus } from 'interfaces/transactionInterface';
 
-TransactionProduct.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    }
-  },
-  {
-    freezeTableName: true,
-    modelName: 'transaction_product',
-    sequelize
+export default (sequelize: any): any => {
+  class TransactionProduct extends Model {
+    declare id: CreationOptional<number>;
+    declare quantity: number;
+    declare unitPrice: number;
+    declare status: TransactionStatus;
   }
-);
+
+  TransactionProduct.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      status: {
+        type: DataTypes.ENUM,
+        values: ['pending', 'reversed', 'closed'],
+        allowNull: false
+      },
+
+      quantity: {
+        type: DataTypes.INTEGER
+      },
+      unitPrice: {
+        type: DataTypes.INTEGER
+      }
+    },
+    {
+      modelName: 'transactionProduct',
+      sequelize
+    }
+  );
+  return TransactionProduct;
+};
