@@ -1,19 +1,16 @@
-import Product from 'models/ProductModel';
-import { Product as ProductInterface } from 'interfaces/ProductInterface';
-
-export const update = async (product: ProductInterface) => {
-  const { id, title, description, icon, price, discount } = product;
-  try {
-    const result = await Product.update(
+import Product from '../models/ProductModel';
+import ProductInterface from 'interfaces/ProductInterface';
+export default class ProductQuery {
+  static update = async (product: ProductInterface) => {
+    const { id, title, description, icon, price, discount } = product;
+    return Product.update(
       { title, description, icon, price, discount },
       {
         where: {
           id
-        }
+        },
+        returning: true
       }
     );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
+  };
+}

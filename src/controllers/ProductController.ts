@@ -1,24 +1,35 @@
-import { Request, Response } from 'express';
-import { update as updateQuery } from '../queries/ProductQuery';
+import { Response, NextFunction } from 'express';
+import GenericError from '../helpers/GenericError';
+import ProductQuery from 'queries/ProductQuery';
+import { ProductRequest } from 'interfaces/ProductRequest';
+export default class ProductController {
+  static updateProduct = async (
+    req: ProductRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.params;
+      const { title, description, icon, price, discount } = req.body;
 
-export const updateProduct = async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id as string);
-  const { title, description, icon, price, discount } = req.body;
+      const updatedProducts = await ProductQuery.update({
+        id: Number(id),
+        title,
+        description,
+        icon,
+        price,
+        discount
+      });
 
-  try {
-    const newProducts = await updateQuery({
-      id,
-      title,
-      description,
-      icon,
-      price,
-      discount
-    });
+      if (!updatedProducts) throw new GenericError('Not Found', 404);
 
-    return newProducts;
-  } catch (error) {
-    res.status(500).json({
-      error: error
-    });
-  }
-};
+      res.json({
+        status: 200,
+        message: 'Success',
+        product: updatedProducts[1]
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
