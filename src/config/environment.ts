@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { DATABASE_URL, PORT, NODE_ENV, SECRET_KEY } = process.env;
+const { DATABASE_URL, PORT, NODE_ENV, SECRET_KEY, ORIGIN } = process.env;
 
 const config = {
   database: {
@@ -14,7 +14,12 @@ const config = {
   },
   port: PORT || 4000,
   nodeEnv: NODE_ENV || 'development',
-  secretKey: SECRET_KEY || ''
+  jwt: {
+    secretKey: SECRET_KEY || ''
+  },
+  client: {
+    origin: ORIGIN || 'http://localhost:3000'
+  }
 };
 
 export default config;
