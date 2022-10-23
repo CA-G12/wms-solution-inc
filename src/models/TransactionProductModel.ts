@@ -1,5 +1,5 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
-import { TransactionStatus } from 'interfaces/transactionInterface';
+import { TransactionStatus } from '../interfaces/transactionInterface';
 import { sequelize } from '../db/connection';
 
 export default class TransactionProduct extends Model {
@@ -18,10 +18,9 @@ TransactionProduct.init(
     },
     status: {
       type: DataTypes.ENUM,
-      values: ['pending', 'reversed', 'closed'],
+      values: Object.values(TransactionStatus),
       allowNull: false
     },
-
     quantity: {
       type: DataTypes.INTEGER
     },

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserQuery } from '../queries/UserQuery';
+import UserQuery from '../queries/UserQuery';
 import authSchema from '../validation/userValidation';
 import { AuthHelper } from '../helpers/AuthHelper';
 import { validator } from '../validation/validator';

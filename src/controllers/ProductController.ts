@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { sequelize } from '../db/connection';
 import { QueryTypes } from 'sequelize';
-
+import { sequelize } from '../db/connection';
 import GenericError from '../helpers/GenericError';
-import ProductQuery from '../queries/UserQuery';
+import ProductQuery from '../queries/ProductQuery';
 
 export default class ProductController {
   static updateProduct = async (
