@@ -12,7 +12,7 @@ const config = {
   database: {
     uri: DATABASE_URL
   },
-  port: PORT || 3000,
+  port: PORT || 4000,
   nodeEnv: NODE_ENV || 'development',
   secretKey: SECRET_KEY || ''
 };
