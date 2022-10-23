@@ -1,12 +1,14 @@
-import models from '../models';
 import { Role } from '../interfaces/UserInterface';
 import {
   TransactionStatus,
   TransactionType
 } from '../interfaces/transactionInterface';
 import { sequelize } from './connection';
+import Transaction from '../models/TransactionModel';
+import TransactionProduct from '../models/TransactionProductModel';
+import Product from '../models/ProductModel';
+import User from '../models/UserModel';
 
-const { Transaction, TransactionProduct, Product, User } = models();
 const Products = [
   {
     title: 'product1',
@@ -102,12 +104,7 @@ const transactionProduct = [
   }
 ];
 
-const populateDB = async (
-  Transaction: any,
-  TransactionProduct: any,
-  Product: any,
-  User: any
-): Promise<void> => {
+const populateDB = async (): Promise<void> => {
   await sequelize.sync({ force: true });
   await User.bulkCreate([
     {
@@ -124,8 +121,7 @@ const populateDB = async (
 
 (async () => {
   try {
-    // const { Transaction, TransactionProduct, Product, User } = initDB();
-    populateDB(Transaction, TransactionProduct, Product, User);
+    populateDB();
     console.log('Build Database Successfully');
   } catch (error) {
     console.log('Build Database Failed', error);

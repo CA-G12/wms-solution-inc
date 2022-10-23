@@ -1,52 +1,52 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
 import { Role } from '../../src/interfaces/UserInterface';
-export default (sequelize: any, Transaction: any): any => {
-  class User extends Model {
-    declare id: CreationOptional<number>;
-    declare username: string;
-    declare password: string;
-    declare email: string;
-    declare role: Role;
-  }
+import { sequelize } from '../db/connection';
+import Transaction from './TransactionModel';
 
-  User.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-      },
-      username: {
-        type: DataTypes.STRING(128),
-        allowNull: false,
-        unique: true
-      },
-      email: {
-        type: DataTypes.STRING(128),
-        allowNull: false,
-        unique: true
-      },
-      password: {
-        type: DataTypes.STRING(128),
-        allowNull: false
-      },
-      role: {
-        type: DataTypes.ENUM,
-        values: Object.values(Role),
-        allowNull: false
-      }
+export default class User extends Model {
+  declare id: CreationOptional<number>;
+  declare username: string;
+  declare password: string;
+  declare email: string;
+  declare role: Role;
+}
+
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
     },
-    {
-      modelName: 'User',
-      sequelize
+    username: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING(128),
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.ENUM,
+      values: Object.values(Role),
+      allowNull: false
     }
-  );
+  },
+  {
+    modelName: 'User',
+    sequelize
+  }
+);
 
-  User.hasMany(Transaction, {
-    foreignKey: 'issuedBy'
-  });
-  Transaction.belongsTo(User, {
-    foreignKey: 'issuedBy'
-  });
-  return User;
-};
+User.hasMany(Transaction, {
+  foreignKey: 'issuedBy'
+});
+Transaction.belongsTo(User, {
+  foreignKey: 'issuedBy'
+});
