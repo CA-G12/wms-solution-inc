@@ -5,9 +5,9 @@ import {
   InferCreationAttributes,
   CreationOptional
 } from 'sequelize';
+import { sequelize } from '../db/connection';
 import Transaction from './TransactionModel';
 import TransactionProduct from './TransactionProductModel';
-import { sequelize } from '../db/connection';
 
 export default class Product extends Model<
   InferAttributes<Product>,

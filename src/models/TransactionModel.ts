@@ -5,8 +5,8 @@ import {
   InferCreationAttributes,
   CreationOptional
 } from 'sequelize';
-import { TransactionType } from 'interfaces/transactionInterface';
 import { sequelize } from '../db/connection';
+import { TransactionType } from '../interfaces/transactionInterface';
 
 export default class Transaction extends Model<
   InferAttributes<Transaction>,
@@ -27,7 +27,7 @@ Transaction.init(
     },
     type: {
       type: DataTypes.ENUM,
-      values: ['purchase', 'sale'],
+      values: Object.values(TransactionType),
       allowNull: false
     },
     createdAt: DataTypes.DATE,

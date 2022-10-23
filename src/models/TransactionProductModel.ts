@@ -1,6 +1,6 @@
 import { DataTypes, Model, CreationOptional } from 'sequelize';
-import { TransactionStatus } from '../interfaces/transactionInterface';
 import { sequelize } from '../db/connection';
+import { TransactionStatus } from '../interfaces/transactionInterface';
 
 export default class TransactionProduct extends Model {
   declare id: CreationOptional<number>;
@@ -29,7 +29,7 @@ TransactionProduct.init(
     }
   },
   {
-    modelName: 'transactionProduct',
+    modelName: 'TransactionProduct',
     sequelize
   }
 );
