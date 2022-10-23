@@ -4,7 +4,7 @@ import AuthHelper from '../helpers/AuthHelper';
 import GenericError from '../helpers/GenericError';
 import UserQuery from '../queries/UserQuery';
 
-export class AuthMiddleware {
+export default class AuthMiddleware {
   static authUser = async (
     req: AuthRequest,
     res: Response,
