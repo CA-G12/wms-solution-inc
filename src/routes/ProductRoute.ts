@@ -7,3 +7,4 @@ const router = Router();
 router.put('/:id', ProductController.updateProduct);
 
 export default router;
+

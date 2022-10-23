@@ -17,6 +17,7 @@ export default class AuthMiddleware {
       const { id } = await AuthHelper.verifyToken(token);
       if (!id) throw new GenericError('Unauthenticated', 401);
 
+
       const user = await UserQuery.getUser({
         filter: { id },
         attributes: ['id', 'username', 'email', 'password', 'role']
