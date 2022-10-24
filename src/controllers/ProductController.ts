@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {QueryTypes} from "sequelize"
+import { QueryTypes } from 'sequelize';
 import { sequelize } from '../db/connection';
 import GenericError from '../helpers/GenericError';
 import ProductQuery from '../queries/ProductQuery';

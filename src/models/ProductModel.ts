@@ -3,10 +3,8 @@ import {
   Model,
   InferAttributes,
   InferCreationAttributes,
-  CreationOptional,
-  NonAttribute
+  CreationOptional
 } from 'sequelize';
-import User from './UserModel';
 import Transaction from './TransactionModel';
 import TransactionProduct from './TransactionProductModel';
 import { sequelize } from '../db/connection';

@@ -5,10 +5,7 @@ import {
   InferCreationAttributes,
   CreationOptional
 } from 'sequelize';
-import {
-  TransactionStatus,
-  TransactionType
-} from '../interfaces/TransactionInterface';
+import { TransactionType } from '../interfaces/TransactionInterface';
 import { sequelize } from '../db/connection';
 
 export default class Transaction extends Model<
