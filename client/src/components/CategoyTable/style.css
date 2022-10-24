@@ -1,0 +1,54 @@
+.head th {
+  padding: 0.875rem 0.5rem;
+}
+
+th, td {
+  vertical-align: middle;
+}
+
+.actions-th {
+  width: 20%;
+}
+
+.actions-td button {
+  border-radius: 30px !important;
+  padding: 3px 10px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--bg-light);
+  border: 1px solid transparent;
+  font-size: var(--fs-14);
+}
+
+.actions-td button:first-child:hover {
+  border: 1px solid var(--blue);
+}
+.actions-td button:nth-child(2):hover {
+  border: 1px solid var(--danger);
+}
+
+.category-name{
+  width: 40%;
+}
+
+.product-count{
+  width: 40%;
+}
+
+th:first-of-type {
+  border-top-left-radius: 5px;
+  border: none !important;
+}
+th:last-of-type {
+  border-top-right-radius: 5px;
+  border: none !important;
+}
+tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: 5px;
+}
+tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 5px;
+}
