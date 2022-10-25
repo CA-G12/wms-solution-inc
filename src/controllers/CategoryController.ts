@@ -94,7 +94,6 @@ export default class CategoryController {
         Number(limit),
         Number(offset)
       );
-      console.log('categories....."', categories);
 
       const count = await CategoryQuery.getCount();
       res.json({
