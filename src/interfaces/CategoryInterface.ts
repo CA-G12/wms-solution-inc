@@ -1,5 +1,6 @@
 export default interface CategoryInterface {
   id: number;
   name: string;
-  productsCount: number;
+  // createdAt: Date;
+  // updatedAt: Date;
 }

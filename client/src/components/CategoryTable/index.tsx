@@ -7,12 +7,15 @@ import CategoryInterface from '../../interfaces/CategoryInterface';
 import { useEffect, useState } from 'react';
 import Category from '../../api/category';
 import { TablePagination } from '../TablePagination';
+import { AxiosError } from 'axios';
+import Errors from '../../helpers/Errors';
 
 export const CategoryTable = (props: {
-  category: CategoryInterface | null;
   setCategory: React.Dispatch<React.SetStateAction<CategoryInterface | null>>;
-  modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isSucceed: boolean;
+  setIsSucceed: React.Dispatch<React.SetStateAction<boolean>>;
+  search: string;
 }) => {
   const [categories, setCategories] = useState<Array<CategoryInterface> | null>(
     null
@@ -21,46 +24,83 @@ export const CategoryTable = (props: {
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [totalItems, setTotalItems] = useState<number>(0);
 
   const handleView = (id: number, name: string) => {
     props.setCategory({
-      id: 1,
-      name: name,
-      productCount: 3
+      id,
+      name,
+      productsCount: 0
     });
+
     props.setModal(true);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const categoryList = await Category.getAll();
-      setCategories(categoryList.data);
+      try {
+        setIsPending(true);
+
+        const list = props.search
+          ? await Category.getByName({
+              name: props.search,
+              limit: itemsPerPage,
+              offset: itemsPerPage * (currentPage - 1)
+            })
+          : await Category.getAll({
+              limit: itemsPerPage,
+              offset: itemsPerPage * (currentPage - 1)
+            });
+
+        setIsPending(false);
+        setCategories(list.data.rows);
+        setTotalItems(list.data.rowsCount);
+      } catch (error: unknown) {
+        const exception = error as AxiosError;
+        Errors.handleRequestError(exception, setError);
+
+        setIsPending(false);
+      }
     };
 
     fetchData();
-  }, [currentPage]);
+    props.setIsSucceed(false);
+  }, [currentPage, props.isSucceed, props.search]);
+
+  const handleRemove = async (id: number) => {
+    try {
+      await Category.delete(id);
+
+      props.setIsSucceed(true);
+    } catch (error: unknown) {
+      const exception = error as AxiosError;
+      Errors.handleRequestError(exception, setError);
+    }
+  };
 
   return (
     <div className="data-table">
       <Table responsive bordered primary rounded>
         <thead>
           <tr className="head bg-blue text-white">
-            <th>#</th>
             <th>Category Name</th>
             <th>Product Count</th>
             <th className="actions-th text-center">Action</th>
           </tr>
         </thead>
         <tbody>
-          {!categories ? (
+          {isPending ? (
+            <div>Loading...</div>
+          ) : error ? (
+            <div className="text-danger">{error}</div>
+          ) : !categories ? (
             <div>No Categories Found</div>
           ) : (
-            categories.map((category, index) => {
+            categories.map(category => {
               return (
                 <tr key={category.id}>
-                  <th scope="row">{++index}</th>
                   <td className="category-name">{category.name}</td>
-                  <td className="product-count">{category.productCount}</td>
+                  <td className="product-count">{category?.productsCount}</td>
                   <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                     <button
                       onClick={e => {
@@ -69,7 +109,11 @@ export const CategoryTable = (props: {
                     >
                       <HiOutlineEye className="text-blue" /> View
                     </button>
-                    <button>
+                    <button
+                      onClick={e => {
+                        handleRemove(category.id);
+                      }}
+                    >
                       <TfiClose className="text-danger" /> Remove
                     </button>
                   </td>
@@ -80,13 +124,9 @@ export const CategoryTable = (props: {
         </tbody>
       </Table>
       <TablePagination
-        pagesCount={Math.ceil(
-          (categories ? categories.length : 0) / itemsPerPage
-        )}
-        itemsPerPage={itemsPerPage}
+        pagesCount={Math.ceil(totalItems / itemsPerPage)}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalItems={categories ? categories.length : 0}
       />
     </div>
   );

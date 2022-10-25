@@ -1,13 +1,10 @@
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import './style.css';
-import './style.css';
 
 export const TablePagination = (props: {
-  totalItems: number;
   pagesCount: number;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  itemsPerPage: number;
 }) => {
   const pageNumbers: number[] = [];
   for (let i = 1; i <= props.pagesCount; i++) {
@@ -19,15 +16,22 @@ export const TablePagination = (props: {
       aria-label="Page navigation example"
       className="d-flex justify-content-end"
     >
-      <PaginationItem disabled>
-        <PaginationLink first href="#" />
+      <PaginationItem>
+        <PaginationLink
+          first
+          onClick={e => {
+            props.setCurrentPage(1);
+          }}
+        />
       </PaginationItem>
       {pageNumbers.map(pageNumber => {
         console.log(pageNumber);
         return (
-          <PaginationItem key={pageNumber}>
+          <PaginationItem
+            key={pageNumber}
+            className={pageNumber == props.currentPage ? 'active' : ''}
+          >
             <PaginationLink
-              href="#"
               onClick={e => {
                 props.setCurrentPage(pageNumber);
               }}
@@ -38,7 +42,12 @@ export const TablePagination = (props: {
         );
       })}
       <PaginationItem>
-        <PaginationLink href="#" last />
+        <PaginationLink
+          last
+          onClick={e => {
+            props.setCurrentPage(props.pagesCount);
+          }}
+        />
       </PaginationItem>
     </Pagination>
   );

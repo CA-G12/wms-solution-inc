@@ -1,92 +1,93 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  Form,
-  FormGroup
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import CategoryInterface from '../../interfaces/CategoryInterface';
+import Category from '../../api/category';
+import { AxiosError } from 'axios';
+import { CategoryData } from '../../interfaces/FormData';
+import Errors from '../../helpers/Errors';
+import { toast } from 'react-toastify';
 
 export default function CategoryModal(props: {
   category: CategoryInterface | null;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isSucceed: boolean;
+  setIsSucceed: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [unmountOnClose, setUnmountOnClose] = useState(true);
-
+  const [error, setError] = useState('');
   const {
+    reset,
     register,
     handleSubmit,
-    watch,
     setValue,
-    reset,
     formState: { errors }
-  } = useForm();
-
-  const onSubmit = async (data: any) => {
-    reset();
-    toggle();
-    if (props.category) {
-      await axios.post('', { data });
-    } else {
-      await axios.post('', { data });
-    }
-    console.log(data);
-  };
+  } = useForm<CategoryData>();
 
   const toggle = () => props.setModal(!props.modal);
-  const changeUnmountOnClose = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setUnmountOnClose(JSON.parse(value));
+
+  const onSubmit = async (data: CategoryData) => {
+    try {
+      toggle();
+
+      let result = null;
+      if (props.category) {
+        result = await Category.update({
+          id: Number(props.category?.id),
+          name: data.category
+        });
+      } else {
+        result = await Category.create(data.category);
+      }
+      if (result && result.data.message == 'Success') {
+        props.setIsSucceed(true);
+      }
+    } catch (error: unknown) {
+      const exception = error as AxiosError;
+      Errors.handleRequestError(exception, setError);
+    }
+  };
+
+  const handleClose = () => {
+    setValue('category', '');
+    reset();
   };
 
   useEffect(() => {
     if (props.category) {
       setValue('category', props.category.name);
     }
-  }, [props.category]);
 
-  console.log(props.category?.name);
+    if (error) {
+      toast.error(error, {
+        position: 'bottom-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
+
+      setError('');
+    }
+  }, [props.category, error]);
 
   return (
     <div>
-      <Modal
-        isOpen={props.modal}
-        toggle={toggle}
-        unmountOnClose={unmountOnClose}
-      >
+      <Modal isOpen={props.modal} toggle={toggle} onClosed={handleClose}>
         <ModalHeader toggle={toggle}>
           {props.category ? 'Edit' : 'Add'} Category
         </ModalHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
-            {/* <input
-              {...register('category')}
-              // placeholder="Enter category name"
-              className="mb-4"
-              // defaultValue={props.category?.name}
-              value={props.category?.name}
-            /> */}
-            {/* <input
-              {...register('category')}
-              placeholder="Enter category name"
-              className="mb-4"
-              value={props.category?.name}
-            /> */}
             <input
-              {...register('category')}
+              {...register('category', { required: 'Please fill in category' })}
               placeholder="Enter category name"
-              className="mb-4"
+              className="mb-4 form-control"
               defaultValue={props.category?.name}
             />
+            <span className="text-danger">{errors.category?.message}</span>
           </ModalBody>
           <ModalFooter>
             <Button color="primary">{props.category ? 'Edit' : 'Add'}</Button>{' '}

@@ -4,5 +4,8 @@
   --bs-pagination-active-border-color: var(--blue) !important;
   --bs-pagination-focus-color: var(--blue) !important;
   --bs-pagination-hover-color: var(--blue) !important;
+}
 
+.page-link.active, .active>.page-link{
+  /* border:none; */
 }

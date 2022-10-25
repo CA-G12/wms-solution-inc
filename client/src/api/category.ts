@@ -1,18 +1,31 @@
-// import axios from './axios';
-import axios from 'axios';
+import axios from './axios';
 
 export default class Category {
-  static getAll = () => {
-    return axios.get('http://myjson.dit.upm.es/api/bins/bpxs');
+  static getAll = ({ limit, offset }: { limit: number; offset: number }) => {
+    return axios.post('/categories/all', { limit, offset });
+  };
+
+  static getByName = ({
+    name,
+    limit,
+    offset
+  }: {
+    name: string;
+    limit: number;
+    offset: number;
+  }) => {
+    return axios.post('/categories/search', { search: name, limit, offset });
   };
 
   static create = (name: string) => {
-    return axios.post('http://myjson.dit.upm.es/api/bins/a6ds', { name });
+    return axios.post(`/categories/`, { name });
   };
 
-  static update = (category: { id: number; name: string }) => {
-    return axios.post('http://myjson.dit.upm.es/api/bins/a6ds', {
-      name: category.name
-    });
+  static update = ({ id, name }: { id: number; name: string }) => {
+    return axios.put(`/categories/${id}`, { name });
+  };
+
+  static delete = (id: number) => {
+    return axios.delete(`/categories/${id}`);
   };
 }

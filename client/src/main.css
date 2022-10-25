@@ -36,7 +36,9 @@
   --transition-1: 0.2s;
   --transition-2: 0.5s;
 }
-
+html {
+  overflow-y: hidden;
+}
 body {
   font-family: 'Nunito Sans', sans-serif !important;
 }
@@ -100,3 +102,65 @@ p {
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
+/* -------------- Start Table Style  ------------------ */
+.head th {
+  padding: 0.875rem 0.5rem;
+}
+
+th, td {
+  vertical-align: middle;
+}
+
+.actions-th {
+  width: 20%;
+}
+
+.actions-td button {
+  border-radius: 30px !important;
+  padding: 3px 10px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--bg-light);
+  border: 1px solid transparent;
+  font-size: var(--fs-14);
+}
+
+.actions-td button:first-child:hover {
+  border: 1px solid var(--blue);
+}
+.actions-td button:nth-child(2):hover {
+  border: 1px solid var(--danger);
+}
+
+th:first-of-type {
+  border-top-left-radius: 5px;
+  border: none !important;
+}
+th:last-of-type {
+  border-top-right-radius: 5px;
+  border: none !important;
+}
+tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: 5px;
+}
+tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 5px;
+}
+
+/* -------------- End Table Style  ------------------ */
+
+
+/* -------------- Start Pagination Style  ------------------ */
+.pagination {
+  --bs-pagination-color: var(--blue) !important;
+  --bs-pagination-active-bg: var(--blue) !important;
+  --bs-pagination-active-border-color: var(--blue) !important;
+  --bs-pagination-focus-color: var(--blue) !important;
+  --bs-pagination-hover-color: var(--blue) !important;
+}
+/* -------------- End Pagination Style  ------------------ */
+

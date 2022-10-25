@@ -1,39 +1,34 @@
-import { Button, Table } from 'reactstrap';
+import { Button } from 'reactstrap';
 import './style.css';
 import { useForm } from 'react-hook-form';
-import { FaBeer, FaRegEdit } from 'react-icons/fa';
 import { GoSearch } from 'react-icons/go';
-import { TfiClose } from 'react-icons/tfi';
-import { HiOutlineEye } from 'react-icons/hi';
-import { CategoryTable } from '../../components/CategoyTable';
-import { useEffect, useState } from 'react';
-import Category from '../../api/category';
+import { CategoryTable } from '../../components/CategoryTable';
+import { useState } from 'react';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import CategoryModal from '../../components/CategoryModal';
-
-type FormData = {
-  search: string;
-};
+import { CategorySearch } from '../../interfaces/FormData';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Categories = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<CategorySearch>();
 
-  const onSubmit = handleSubmit(data => console.log(data));
+  const [search, setSearch] = useState<string>('');
+  const onSubmit = handleSubmit(data => {
+    setSearch(data.search);
+  });
 
   const [modal, setModal] = useState<boolean>(false);
   const [category, setCategory] = useState<CategoryInterface | null>(null);
+  const [isSucceed, setIsSucceed] = useState<boolean>(false);
 
-  const handeAddClick = () => {
+  const handleAddClick = () => {
     setCategory(null);
     setModal(true);
   };
 
   return (
-    <section className="data-table bg-white p-4">
+    <section className="data-table-section bg-white p-4">
       <header>
         <h3 className="h6 fw-bold mb-5">Categories</h3>
         <div className="d-flex justify-content-between mb-3 align-items-center">
@@ -50,7 +45,7 @@ const Categories = () => {
           </form>
           <div className="right ms-auto">
             <div>
-              <Button color="primary" onClick={e => handeAddClick()}>
+              <Button color="primary" onClick={e => handleAddClick()}>
                 Add Category
               </Button>
             </div>
@@ -58,12 +53,20 @@ const Categories = () => {
         </div>
       </header>
       <CategoryTable
-        category={category}
         setCategory={setCategory}
+        setModal={setModal}
+        isSucceed={isSucceed}
+        setIsSucceed={setIsSucceed}
+        search={search}
+      />
+      <CategoryModal
+        category={category}
         modal={modal}
         setModal={setModal}
+        isSucceed={isSucceed}
+        setIsSucceed={setIsSucceed}
       />
-      <CategoryModal category={category} modal={modal} setModal={setModal} />
+      <ToastContainer />
     </section>
   );
 };
