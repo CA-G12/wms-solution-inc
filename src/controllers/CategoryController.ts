@@ -4,7 +4,7 @@ import GenericError from '../helpers/GenericError';
 import { CategoryRequest } from '../interfaces/CategoryRequest';
 import CategoryQuery from '../queries/CategoryQuery';
 
-export default class ProductController {
+export default class CategoryController {
   static create = async (
     req: CategoryRequest,
     res: Response,
