@@ -88,7 +88,7 @@ export default class ProductController {
       const { id } = req.params;
       await ProductQuery.deleteProduct(Number(id));
       res.json({
-        status: 200,
+        status: 204,
         message: 'Success'
       });
     } catch (error) {
