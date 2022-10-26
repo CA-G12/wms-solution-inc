@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-export default class Errors {
+export default class ErrorHandler {
   static handleRequestError(
     exception: AxiosError,
     setError: React.Dispatch<React.SetStateAction<string>>

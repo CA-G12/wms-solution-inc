@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import * as Category from '../../api/category';
-import { AxiosError } from 'axios';
 import { CategoryData } from '../../interfaces/FormData';
-import Errors from '../../helpers/Errors';
-import { toast } from 'react-toastify';
+import ErrorHandler from '../../helpers/ErrorHandler';
 
 export default function CategoryModal(props: {
   category: CategoryInterface | null;
@@ -44,7 +44,7 @@ export default function CategoryModal(props: {
       }
     } catch (error: unknown) {
       const exception = error as AxiosError;
-      Errors.handleRequestError(exception, setError);
+      ErrorHandler.handleRequestError(exception, setError);
     }
   };
 

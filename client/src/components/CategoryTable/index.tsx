@@ -1,14 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
-import './style.css';
 import { TfiClose } from 'react-icons/tfi';
 import { HiOutlineEye } from 'react-icons/hi';
-import './style.css';
+import { AxiosError } from 'axios';
 import CategoryInterface from '../../interfaces/CategoryInterface';
-import { useEffect, useState } from 'react';
 import * as Category from '../../api/category';
 import { TablePagination } from '../TablePagination';
-import { AxiosError } from 'axios';
-import Errors from '../../helpers/Errors';
+import ErrorHandler from '../../helpers/ErrorHandler';
+import './style.css';
 
 export const CategoryTable = (props: {
   setCategory: React.Dispatch<React.SetStateAction<CategoryInterface | null>>;
@@ -23,7 +22,7 @@ export const CategoryTable = (props: {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [itemsPerPage] = useState<number>(10);
   const [totalItems, setTotalItems] = useState<number>(0);
 
   const handleView = (id: number, name: string) => {
@@ -52,7 +51,7 @@ export const CategoryTable = (props: {
         setTotalItems(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
-        Errors.handleRequestError(exception, setError);
+        ErrorHandler.handleRequestError(exception, setError);
 
         setIsPending(false);
       }
@@ -69,7 +68,7 @@ export const CategoryTable = (props: {
       props.setIsSucceed(true);
     } catch (error: unknown) {
       const exception = error as AxiosError;
-      Errors.handleRequestError(exception, setError);
+      ErrorHandler.handleRequestError(exception, setError);
     }
   };
 
