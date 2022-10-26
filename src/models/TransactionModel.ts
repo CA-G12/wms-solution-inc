@@ -7,6 +7,7 @@ import {
 } from 'sequelize';
 import { TransactionType } from '../interfaces/TransactionInterface';
 import { sequelize } from '../db/connection';
+import TransactionProduct from './TransactionProductModel';
 
 export default class Transaction extends Model<
   InferAttributes<Transaction>,
@@ -38,3 +39,6 @@ Transaction.init(
     sequelize
   }
 );
+
+TransactionProduct.belongsTo(Transaction);
+Transaction.hasMany(TransactionProduct);

@@ -119,11 +119,21 @@ const categories = [
 ];
 
 const transactions = [
-  { type: TransactionType.Purchase },
-  { type: TransactionType.Purchase },
-  { type: TransactionType.Sale },
-  { type: TransactionType.Sale },
-  { type: TransactionType.Sale }
+  { type: TransactionType.Purchase, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 1 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Purchase, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 2 },
+  { type: TransactionType.Sale, issuedBy: 3 },
+  { type: TransactionType.Sale, issuedBy: 2 }
 ];
 
 const transactionProduct = [
@@ -197,6 +207,18 @@ const populateDB = async (): Promise<void> => {
       password: '123456',
       email: 'admin@homtail.com',
       role: Role.admin
+    },
+    {
+      username: 'customer1',
+      password: '123456',
+      email: 'employee1@homtail.com',
+      role: Role.customer
+    },
+    {
+      username: 'customer2',
+      password: '123456',
+      email: 'employee2@homtail.com',
+      role: Role.customer
     }
   ]);
   await Category.bulkCreate(categories);

@@ -52,4 +52,5 @@ Product.init(
   { modelName: 'Product', sequelize }
 );
 
-Product.belongsToMany(Transaction, { through: TransactionProduct });
+TransactionProduct.belongsTo(Product);
+Product.hasMany(TransactionProduct);
