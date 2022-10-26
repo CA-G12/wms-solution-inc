@@ -10,7 +10,7 @@ export enum TransactionType {
 }
 
 export type Transaction = {
-  id: number;
+  id?: number;
   status: TransactionStatus;
   type: TransactionType;
   issuedBy: number;

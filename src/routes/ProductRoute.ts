@@ -5,6 +5,9 @@ const router = Router();
 
 router.get('/', ProductController.getProducts);
 //TODO What the difference between put and patch
-router.put('/:id', ProductController.updateProduct);
+router
+  .route('/:id')
+  .put(ProductController.updateProduct)
+  .delete(ProductController.deleteProduct);
 
 export default router;
