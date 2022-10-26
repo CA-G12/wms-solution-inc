@@ -19,7 +19,6 @@ export default class DataGenerator {
 
   static generateUsers(): User[] {
     return [...Array(100)].map((_, i) => ({
-      id: i + 1,
       username: faker.internet.userName(),
       password: '$2a$10$Zco2hCwKBrjQ4v/Xcxb9P.U0Rvp5PxgY9F2tfJJqv16vvcJCxwzka',
       email: faker.internet.email(),
@@ -31,7 +30,6 @@ export default class DataGenerator {
 
   static generateProducts(): ProductInterface[] {
     return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
-      id: i + 1,
       title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       icon: faker.internet.avatar(),
@@ -46,7 +44,6 @@ export default class DataGenerator {
     return [...Array(100)].map((_, i) => {
       const type = faker.helpers.objectValue(TransactionType);
       return {
-        id: i + 1,
         status: faker.helpers.objectValue(TransactionStatus),
         type,
         issuedBy:
@@ -79,24 +76,5 @@ export default class DataGenerator {
         });
     }
     return transProdsArr;
-  }
-
-  static getItem(fileName: string): string {
-    const path = join(__dirname, 'output', fileName);
-    try {
-      const data = fs.readFileSync(path, {
-        encoding: 'utf8',
-        flag: 'r'
-      });
-      if (fileName === 'products.json') {
-        return JSON.parse(data).map(
-          (item: ProductInterface): number => item.id
-        );
-      }
-      return JSON.parse(data).map((item: Transaction): number => item.id);
-    } catch (error) {
-      console.error(error);
-      return JSON.stringify(error);
-    }
   }
 }
