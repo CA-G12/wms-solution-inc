@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
-import { getAllProducts, updateProduct } from '../../api/products';
+import {
+  getAllProductsAPI,
+  updateProductAPI,
+  deleteProductAPI
+} from '../../api/products';
 import { ModalEdit } from '../../components/ModalEdit';
 import { TableProductRow } from '../../components/TableProductRow';
 import { Product } from '../../interfaces/ProductInterface';
@@ -13,21 +17,34 @@ const Products = () => {
     productId: '-1'
   });
   const [updatedItem, setUpdatedItem] = useState();
+  const [deletedItem, setDeletedItem] = useState();
 
   const startEditMode = (productId: string) => {
     setEditMode({ editMode: !editMode, productId });
   };
 
   const update = (id: number, updatedProduct: Product) => {
-    updateProduct(id, updatedProduct)
+    updateProductAPI(id, updatedProduct)
       .then(result => result.data)
       .then(product => setUpdatedItem(product))
       .catch(error => {
         console.error('error', error);
       });
   };
+
+  const deleteProduct = (id: number) => {
+    deleteProductAPI(id)
+      .then(result => {
+        console.log(result);
+        return result.data;
+      })
+      .then(success => setDeletedItem(success))
+      .catch(error => {
+        console.log('delete error', error);
+      });
+  };
   useEffect(() => {
-    getAllProducts()
+    getAllProductsAPI()
       .then(result => {
         console.log('result', result);
         setProducts(result.data);
@@ -35,7 +52,7 @@ const Products = () => {
       .catch(err => {
         console.log(err);
       });
-  }, [updatedItem]);
+  }, [updatedItem, deletedItem]);
 
   return (
     <div className="product-page-body">
@@ -68,6 +85,7 @@ const Products = () => {
                 key={index}
                 product={product}
                 startEditMode={startEditMode}
+                deleteProduct={deleteProduct}
               />
             ))
           ) : (

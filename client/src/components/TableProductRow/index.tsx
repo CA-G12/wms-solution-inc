@@ -3,10 +3,12 @@ import './styles.css';
 
 export const TableProductRow = ({
   product,
-  startEditMode
+  startEditMode,
+  deleteProduct
 }: {
   product: Product;
   startEditMode: CallableFunction;
+  deleteProduct: CallableFunction;
 }) => {
   const date = new Date(
     product.createdAt || 'October 13, 2014 11:13:00' //TODO DELETE THE DUMMY DATE
@@ -44,6 +46,7 @@ export const TableProductRow = ({
             className="row-action"
             src="https://img.icons8.com/plasticine/100/000000/filled-trash.png"
             alt="Delete button"
+            onClick={() => deleteProduct(product.id)}
           />
         </div>
       </td>
