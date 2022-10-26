@@ -37,34 +37,16 @@ export default class CategoryQuery {
     return Category.count();
   };
 
-  static getAll = async (limit: number, offset: number) => {
-    return Category.findAll({
-      attributes: [
-        'name',
-        'Category.id',
-        'Category.createdAt',
-        [
-          sequelize.fn('count', sequelize.col('Products.categoryId')),
-          'productsCount'
-        ]
-      ],
-      // order: [['Category.id', 'DESC']],
-      // order: [['Category.createdAt', 'DESC']],
-      include: [
-        {
-          model: Product,
-          attributes: [],
-          duplicating: false
-        }
-      ],
-      group: ['name', 'Category.id', 'Category.createdAt'],
-      raw: true,
-      limit,
-      offset
-    });
-  };
-
-  static getByName = async (name: string, limit: number, offset: number) => {
+  static search = async ({
+    name,
+    limit,
+    offset
+  }: {
+    name: string;
+    limit: number;
+    offset: number;
+  }) => {
+    console.log(name, offset, limit);
     return Category.findAll({
       where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), {
         [Op.like]: `%${name.toLowerCase()}%`
@@ -78,7 +60,6 @@ export default class CategoryQuery {
           'productsCount'
         ]
       ],
-      // order: [['Category.createdAt', 'DESC']],
       include: [
         {
           model: Product,

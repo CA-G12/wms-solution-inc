@@ -13,14 +13,12 @@ export default class CategoryController {
     try {
       const { name } = req.body;
 
-      const created = await CategoryQuery.create(name);
-
-      if (!created) throw new GenericError('Not Found', 404);
+      const category = await CategoryQuery.create(name);
 
       res.json({
         status: 201,
         message: 'Success',
-        category: created
+        category: category
       });
     } catch (error) {
       const exception = error as ValidationError;
@@ -43,17 +41,17 @@ export default class CategoryController {
       const { id } = req.params;
       const { name } = req.body;
 
-      const updatedCategory = await CategoryQuery.update({
+      const category = await CategoryQuery.update({
         id: Number(id),
         name
       });
 
-      if (!updatedCategory) throw new GenericError('Not Found', 404);
+      if (!category) throw new GenericError('Not Found', 404);
 
       res.json({
         status: 200,
         message: 'Success',
-        category: updatedCategory[1]
+        category: category[1]
       });
     } catch (error) {
       const exception = error as ValidationError;
@@ -83,51 +81,25 @@ export default class CategoryController {
     }
   };
 
-  static getAll = async (
+  static search = async (
     req: CategoryRequest,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      const { limit, offset } = req.body;
-      const categories = await CategoryQuery.getAll(
-        Number(limit),
-        Number(offset)
-      );
-
-      const count = await CategoryQuery.getCount();
-      res.json({
-        status: 200,
-        message: 'Success',
-        rowsCount: count,
-        limitedRowsCount: categories.length,
-        rows: categories
+      const { name = '', offset = '0', limit = '20' } = req.query;
+      const categories = await CategoryQuery.search({
+        name,
+        limit: Number(limit),
+        offset: Number(offset)
       });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  static getByName = async (
-    req: CategoryRequest,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const { limit, offset, search = '' } = req.body;
-      const categories = await CategoryQuery.getByName(
-        search,
-        Number(limit) || 20,
-        Number(offset) || 0
-      );
       const count = await CategoryQuery.getCount();
 
       res.json({
         status: 200,
         message: 'Success',
-        rowsCount: count,
-        limitedRowsCount: categories.length,
-        rows: categories
+        totalCount: count,
+        items: categories
       });
     } catch (error) {
       next(error);

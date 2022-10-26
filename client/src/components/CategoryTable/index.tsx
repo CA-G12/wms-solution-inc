@@ -5,7 +5,7 @@ import { HiOutlineEye } from 'react-icons/hi';
 import './style.css';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import { useEffect, useState } from 'react';
-import Category from '../../api/category';
+import * as Category from '../../api/category';
 import { TablePagination } from '../TablePagination';
 import { AxiosError } from 'axios';
 import Errors from '../../helpers/Errors';
@@ -41,20 +41,15 @@ export const CategoryTable = (props: {
       try {
         setIsPending(true);
 
-        const list = props.search
-          ? await Category.getByName({
-              name: props.search,
-              limit: itemsPerPage,
-              offset: itemsPerPage * (currentPage - 1)
-            })
-          : await Category.getAll({
-              limit: itemsPerPage,
-              offset: itemsPerPage * (currentPage - 1)
-            });
+        const list = await Category.search({
+          name: props.search,
+          limit: itemsPerPage,
+          offset: itemsPerPage * (currentPage - 1)
+        });
 
         setIsPending(false);
-        setCategories(list.data.rows);
-        setTotalItems(list.data.rowsCount);
+        setCategories(list.data.items);
+        setTotalItems(list.data.totalCount);
       } catch (error: unknown) {
         const exception = error as AxiosError;
         Errors.handleRequestError(exception, setError);
@@ -69,7 +64,7 @@ export const CategoryTable = (props: {
 
   const handleRemove = async (id: number) => {
     try {
-      await Category.delete(id);
+      await Category.remove(id);
 
       props.setIsSucceed(true);
     } catch (error: unknown) {

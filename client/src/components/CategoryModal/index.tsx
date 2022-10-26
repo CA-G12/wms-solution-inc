@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import CategoryInterface from '../../interfaces/CategoryInterface';
-import Category from '../../api/category';
+import * as Category from '../../api/category';
 import { AxiosError } from 'axios';
 import { CategoryData } from '../../interfaces/FormData';
 import Errors from '../../helpers/Errors';

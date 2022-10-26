@@ -6,7 +6,6 @@ const router = Router();
 router.post('/', CategoryController.create);
 router.put('/:id', CategoryController.update);
 router.delete('/:id', CategoryController.delete);
-router.post('/all', CategoryController.getAll);
-router.post('/search/', CategoryController.getByName);
+router.get('/', CategoryController.search);
 
 export default router;

@@ -1,31 +1,25 @@
 import axios from './axios';
 
-export default class Category {
-  static getAll = ({ limit, offset }: { limit: number; offset: number }) => {
-    return axios.post('/categories/all', { limit, offset });
-  };
+export const search = ({
+  name,
+  limit,
+  offset
+}: {
+  name: string;
+  limit: number;
+  offset: number;
+}) => {
+  return axios.get(`categories?name=${name}&limit=${limit}&offset=${offset}`);
+};
 
-  static getByName = ({
-    name,
-    limit,
-    offset
-  }: {
-    name: string;
-    limit: number;
-    offset: number;
-  }) => {
-    return axios.post('/categories/search', { search: name, limit, offset });
-  };
+export const create = (name: string) => {
+  return axios.post(`/categories`, { name });
+};
 
-  static create = (name: string) => {
-    return axios.post(`/categories/`, { name });
-  };
+export const update = ({ id, name }: { id: number; name: string }) => {
+  return axios.put(`/categories/${id}`, { name });
+};
 
-  static update = ({ id, name }: { id: number; name: string }) => {
-    return axios.put(`/categories/${id}`, { name });
-  };
-
-  static delete = (id: number) => {
-    return axios.delete(`/categories/${id}`);
-  };
-}
+export const remove = (id: number) => {
+  return axios.delete(`/categories/${id}`);
+};
