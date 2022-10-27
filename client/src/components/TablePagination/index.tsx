@@ -11,7 +11,6 @@ export const TablePagination = (props: {
     pageNumbers.push(i);
   }
 
-  console.log('searching....');
   return (
     <Pagination
       aria-label="Page navigation example"
