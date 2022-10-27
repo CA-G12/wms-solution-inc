@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import TransactionQuery from '../queries/TransactionQuery';
 import { TransactionRequest } from '../interfaces/TransactionRequest';
 
-export default class CategoryController {
+export default class TransactionController {
   static delete = async (
     req: TransactionRequest,
     res: Response,
@@ -26,19 +26,18 @@ export default class CategoryController {
   ) => {
     try {
       const { type = '', search = '', offset = '0', limit = '20' } = req.query;
-      const categories = await TransactionQuery.search({
+      const transactions = await TransactionQuery.search({
         type,
         search,
         limit: Number(limit),
         offset: Number(offset)
       });
-      const count = await TransactionQuery.getCount();
 
       res.json({
         status: 200,
         message: 'Success',
-        totalCount: count,
-        items: categories
+        totalCount: transactions.count.length,
+        items: transactions.rows
       });
     } catch (error) {
       next(error);

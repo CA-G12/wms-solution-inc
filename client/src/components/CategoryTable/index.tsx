@@ -23,7 +23,7 @@ export const CategoryTable = (props: {
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const [numOfPages, setNumOfPages] = useState<number>(0);
 
   const handleView = (id: number, name: string) => {
     props.setCategory({
@@ -48,7 +48,7 @@ export const CategoryTable = (props: {
 
         setIsPending(false);
         setCategories(list.data.items);
-        setTotalItems(list.data.totalCount);
+        setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
@@ -118,7 +118,7 @@ export const CategoryTable = (props: {
         </tbody>
       </Table>
       <TablePagination
-        pagesCount={Math.ceil(totalItems / itemsPerPage)}
+        numOfPages={numOfPages}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />

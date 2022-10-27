@@ -7,7 +7,7 @@ import TransactionInterface from '../../interfaces/TransactionInterface';
 import { TransactionsTable } from '../../components/TransactionsTable';
 import './style.css';
 
-const Categories = () => {
+const Transactions = () => {
   const { register, handleSubmit } = useForm();
   const [type, setType] = useState<string>('all');
 
@@ -84,4 +84,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Transactions;

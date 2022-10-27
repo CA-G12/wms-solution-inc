@@ -13,10 +13,6 @@ export default class TransactionQuery {
     });
   };
 
-  static getCount = async () => {
-    return Transaction.count();
-  };
-
   static search = async ({
     search,
     type,
@@ -28,7 +24,7 @@ export default class TransactionQuery {
     limit: number;
     offset: number;
   }) => {
-    return Transaction.findAll({
+    return Transaction.findAndCountAll({
       where: {
         [Op.and]: [
           type == 'purchase' || type == 'sale' ? { type: type } : {},
@@ -42,6 +38,7 @@ export default class TransactionQuery {
         'type',
         'Transaction.createdAt',
         'Transaction.updatedAt',
+        'User.username',
         [
           sequelize.fn(
             'count',
@@ -58,13 +55,14 @@ export default class TransactionQuery {
       ],
       include: [
         {
-          model: TransactionProduct,
+          model: User,
           attributes: [],
           duplicating: false
         },
         {
-          model: User,
-          attributes: ['username']
+          model: TransactionProduct,
+          attributes: [],
+          duplicating: false
         }
       ],
       group: [
@@ -72,7 +70,7 @@ export default class TransactionQuery {
         'type',
         'Transaction.createdAt',
         'Transaction.updatedAt',
-        'username'
+        'User.username'
       ],
       raw: true,
       limit,

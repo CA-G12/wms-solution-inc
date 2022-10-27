@@ -33,10 +33,6 @@ export default class CategoryQuery {
     });
   };
 
-  static getCount = async () => {
-    return Category.count();
-  };
-
   static search = async ({
     name,
     limit,
@@ -47,7 +43,7 @@ export default class CategoryQuery {
     offset: number;
   }) => {
     console.log(name, offset, limit);
-    return Category.findAll({
+    return Category.findAndCountAll({
       where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), {
         [Op.like]: `%${name.toLowerCase()}%`
       }),

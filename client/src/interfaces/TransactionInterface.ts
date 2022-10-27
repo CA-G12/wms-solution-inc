@@ -7,5 +7,5 @@ export default interface TransactionInterface {
   updatedAt: Date | null;
   productsCount: number;
   totalCost: number;
-  'User.username': string;
+  username: string;
 }

@@ -2,15 +2,16 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import './style.css';
 
 export const TablePagination = (props: {
-  pagesCount: number;
+  numOfPages: number;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const pageNumbers: number[] = [];
-  for (let i = 1; i <= props.pagesCount; i++) {
+  for (let i = 1; i <= props.numOfPages; i++) {
     pageNumbers.push(i);
   }
 
+  console.log('searching....');
   return (
     <Pagination
       aria-label="Page navigation example"
@@ -45,7 +46,7 @@ export const TablePagination = (props: {
         <PaginationLink
           last
           onClick={e => {
-            props.setCurrentPage(props.pagesCount);
+            props.setCurrentPage(props.numOfPages);
           }}
         />
       </PaginationItem>

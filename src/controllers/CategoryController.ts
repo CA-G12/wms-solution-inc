@@ -93,13 +93,12 @@ export default class CategoryController {
         limit: Number(limit),
         offset: Number(offset)
       });
-      const count = await CategoryQuery.getCount();
 
       res.json({
         status: 200,
         message: 'Success',
-        totalCount: count,
-        items: categories
+        totalCount: categories.count.length,
+        items: categories.rows
       });
     } catch (error) {
       next(error);

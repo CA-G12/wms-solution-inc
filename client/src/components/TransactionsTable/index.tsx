@@ -25,7 +25,7 @@ export const TransactionsTable = (props: {
   const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const [numOfPages, setNumOfPages] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +41,7 @@ export const TransactionsTable = (props: {
 
         setIsPending(false);
         setTransactions(list.data.items);
-        setTotalItems(list.data.totalCount);
+        setNumOfPages(Math.ceil(list.data.totalCount / itemsPerPage));
       } catch (error: unknown) {
         const exception = error as AxiosError;
         ErrorHandler.handleRequestError(exception, setError);
@@ -83,7 +83,7 @@ export const TransactionsTable = (props: {
           ) : error ? (
             <div className="text-danger">{error}</div>
           ) : !transactions ? (
-            <div>No Categories Found</div>
+            <div>No Transactions Found</div>
           ) : (
             transactions.map(transaction => {
               console.log(transaction);
@@ -91,7 +91,7 @@ export const TransactionsTable = (props: {
                 <tr key={transaction.id}>
                   <td>{transaction.type}</td>
                   <td>{DateFormatting.formatDate(transaction.createdAt)}</td>
-                  <td>{transaction['User.username']}</td>
+                  <td>{transaction['username']}</td>
                   <td>{transaction.productsCount}</td>
                   <td>${transaction.totalCost}</td>
                   <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
@@ -113,7 +113,7 @@ export const TransactionsTable = (props: {
         </tbody>
       </Table>
       <TablePagination
-        pagesCount={Math.ceil(totalItems / itemsPerPage)}
+        numOfPages={numOfPages}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
