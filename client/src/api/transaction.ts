@@ -16,14 +16,6 @@ export const search = ({
   );
 };
 
-export const create = (name: string) => {
-  return axios.post(`/categories`, { name });
-};
-
-export const update = ({ id, name }: { id: number; name: string }) => {
-  return axios.put(`/categories/${id}`, { name });
-};
-
 export const remove = (id: number) => {
   return axios.delete(`/transactions/${id}`);
 };
