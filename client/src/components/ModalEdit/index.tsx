@@ -1,101 +1,143 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
+import {
+  Button,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row
+} from 'reactstrap';
 import { Product } from '../../interfaces/ProductInterface';
 import './styles.css';
 
 export const ModalEdit = ({
   product,
   startEditMode,
-  update
+  update,
+  modal
 }: {
   product: Product;
   startEditMode: CallableFunction;
   update: CallableFunction;
+  modal: boolean;
 }) => {
-  const { control, handleSubmit } = useForm<Product>({
-    defaultValues: product
-  });
+  const { control, handleSubmit } = useForm<Product>();
+
   const onSubmit: SubmitHandler<Product> = updatedProduct =>
-    update(updatedProduct.id, updatedProduct);
+    update(product.id, updatedProduct);
 
   return (
-    <div className="modal-container">
-      <Form className="modal-form" onSubmit={handleSubmit(onSubmit)}>
-        <button
-          aria-label="Close Modal"
-          aria-labelledby="close-modal"
-          className="_modal-close"
-          onClick={() => startEditMode(-1)}
+    <Modal
+      isOpen={modal}
+      toggle={() => {
+        startEditMode();
+      }}
+      centered={true}
+      size="lg"
+    >
+      <ModalHeader toggle={() => startEditMode()}>Modal title</ModalHeader>
+      <ModalBody className="modal-container">
+        <Form
+          id="editForm"
+          className="modal-form"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <span id="close-modal" className="_hide-visual">
-            Close
-          </span>
-          <svg className="_modal-close-icon" viewBox="0 0 40 40">
-            <path d="M 10,10 L 30,30 M 30,10 L 10,30" />
-          </svg>
-        </button>
-        <Row>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="productTitle">Title</Label>
-              <Controller
-                render={({ field }) => <Input {...field} type="text" />}
-                name="title"
-                control={control}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="productPrice">price</Label>
-              <Controller
-                render={({ field }) => (
-                  <Input {...field} type="number" min={0} />
-                )}
-                name="price"
-                control={control}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <FormGroup>
-              <Label for="productDiscount">Discount</Label>
-              <Controller
-                render={({ field }) => (
-                  <Input {...field} type="number" min={0} />
-                )}
-                name="discount"
-                control={control}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="productInStock">In stock</Label>
-              <Controller
-                render={({ field }) => (
-                  <Input {...field} type="number" min={0} />
-                )}
-                name="inStock"
-                control={control}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <FormGroup>
-          <Label for="productIcon">Icon</Label>
-          <Controller
-            render={({ field }) => <Input {...field} type="date" />}
-            name="createdAt"
-            control={control}
-          />
-        </FormGroup>
-        <Button color="primary" outline className="_submit-button">
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                <Label for="productTitle">Title</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input {...field} type="text" required />
+                  )}
+                  defaultValue={product ? product.title : ''}
+                  name="title"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <Label for="productPrice">price</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input {...field} type="number" min={0} required />
+                  )}
+                  defaultValue={product ? product.price : 0.0}
+                  name="price"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormGroup>
+                <Label for="productDiscount">Discount</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      // placeholder={product ? product.discount.toString() : ''}
+                      type="number"
+                      min={0}
+                      required
+                    />
+                  )}
+                  name="discount"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="productInStock">In stock</Label>
+                <Controller
+                  render={({ field }) => (
+                    <Input {...field} type="number" min={0} required />
+                  )}
+                  defaultValue={product ? product.inStock : 0}
+                  name="inStock"
+                  control={control}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <FormGroup>
+            <Label for="productIcon">Icon</Label>
+            <Controller
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  // placeholder={product ? product.createdAt.toString() : ''}
+                  type="date"
+                  required
+                />
+              )}
+              name="createdAt"
+              control={control}
+            />
+          </FormGroup>
+        </Form>
+      </ModalBody>
+      <ModalFooter>
+        <Button form="editForm" id="btnSubmit" color="primary" outline>
           Edit
         </Button>
-      </Form>
-    </div>
+        <Button
+          className="_btn-model"
+          color="danger"
+          outline
+          onClick={() => startEditMode()}
+        >
+          Cancel
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 };

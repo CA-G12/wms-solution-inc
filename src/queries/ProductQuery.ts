@@ -1,6 +1,5 @@
 import Product from '../models/ProductModel';
 import ProductInterface from 'interfaces/ProductInterface';
-
 export default class ProductQuery {
   static update = async (product: ProductInterface) => {
     const { id, title, description, icon, price, discount } = product;
@@ -16,6 +15,10 @@ export default class ProductQuery {
   };
 
   static deleteProduct = async (id: number): Promise<number> => {
-    return Product.destroy({ where: { id } });
+    return Product.destroy({
+      where: {
+        id
+      }
+    });
   };
 }

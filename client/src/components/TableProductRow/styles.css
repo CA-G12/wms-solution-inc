@@ -11,6 +11,9 @@ td{
     height: 30px;
     cursor: pointer;
 }
+.row-image{
+    cursor: default;
+}
 .row-action:nth-child(2){
     margin: 0px 8px;
 }

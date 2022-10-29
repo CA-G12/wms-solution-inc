@@ -22,10 +22,17 @@ export const TableProductRow = ({
 
   return (
     <tr className="table-primary">
+      <td>
+        <img
+          className="row-action row-image"
+          src="https://img.icons8.com/nolan/64/unpacking.png"
+          alt="Brand image"
+        />
+      </td>
       <td>{product.title}</td>
       <td>{`$${price}`}</td>
       <td>{product.discount}</td>
-      {/* <td>{product.inStock}</td> */}
+      <td>{product.inStock}</td>
       <td>{date}</td>
       <td>
         <div className="actions-container">
