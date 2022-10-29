@@ -10,8 +10,8 @@ import TransactionProduct from '../interfaces/TransactionProductInterface';
 
 export default class DataGenerator {
   static USERS_COUNT = 10;
-  static PRODUCTS_COUNT = 10;
-  static transactions: Transaction[] = [];
+  static PRODUCTS_COUNT = 1000;
+  static transactions: Omit<Transaction, 'id'>[] = [];
   static transactionsProducts: TransactionProduct[] = [];
 
   static incrementDateByDay = (date: Date, days: number) => {
@@ -19,12 +19,10 @@ export default class DataGenerator {
   };
 
   static createTransaction(
-    id: number,
     type: TransactionType,
     date: Date
-  ): Transaction {
+  ): Omit<Transaction, 'id'> {
     return {
-      id,
       type,
       issuedBy: 1,
       createdAt: date,
@@ -65,7 +63,7 @@ export default class DataGenerator {
     };
   }
 
-  static generateUsers(): User[] {
+  static generateUsers(): Omit<User, 'id'>[] {
     return [...Array(this.USERS_COUNT)].map((_, i) => ({
       username: faker.internet.userName(),
       password: '$2a$10$Zco2hCwKBrjQ4v/Xcxb9P.U0Rvp5PxgY9F2tfJJqv16vvcJCxwzka',
@@ -76,7 +74,7 @@ export default class DataGenerator {
     }));
   }
 
-  static generateProducts(): Product[] {
+  static generateProducts(): Omit<Product, 'id'>[] {
     return [...Array(this.PRODUCTS_COUNT)].map((_, i) => ({
       title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
@@ -89,7 +87,6 @@ export default class DataGenerator {
   }
 
   static generateTransactions(id: number, counter: number, limit: number) {
-    console.log('REC START: ', id, counter, limit);
     if (counter >= limit) {
       return;
     }
@@ -99,7 +96,6 @@ export default class DataGenerator {
       '2022-01-01T00:00:00.000Z'
     );
     const newPurchaseT = this.createTransaction(
-      id,
       TransactionType.Purchase,
       createdAt
     );
@@ -222,7 +218,6 @@ export default class DataGenerator {
     // create new sale transaction and new sales tp.
     for (const id in formattedSalesTP) {
       const newSaleT = this.createTransaction(
-        +id,
         TransactionType.Sale,
         formattedSalesTP[id].saleCreatedAt
       );
@@ -247,9 +242,8 @@ export default class DataGenerator {
         this.transactionsProducts.push(newSaleTP);
       });
     }
+
     // return next transaction id to start over.
-    const idsArr = Object.keys(formattedSalesTP);
-    const lastID = Number(idsArr[idsArr.length - 1]);
-    return lastID + 1;
+    return transactionId + 1;
   }
 }
