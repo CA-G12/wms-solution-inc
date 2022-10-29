@@ -9,11 +9,10 @@ export enum TransactionType {
   Sale = 'sale'
 }
 
-export type Transaction = {
-  id?: number;
-  status: TransactionStatus;
+export interface Transaction {
+  id: number;
   type: TransactionType;
   issuedBy: number;
   createdAt: Date;
   updatedAt: Date;
-};
+}
