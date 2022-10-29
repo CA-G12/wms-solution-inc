@@ -7,9 +7,6 @@ import {
   TransactionType
 } from '../interfaces/TransactionInterface';
 import TransactionProduct from '../interfaces/TransactionProductInterface';
-import { join } from 'path';
-import fs from 'fs';
-import ProductInterface from '../interfaces/ProductInterface';
 
 export default class DataGenerator {
   static USERS_COUNT = 10;
@@ -107,10 +104,10 @@ export default class DataGenerator {
     const nextID = +this.generateTransactionsProducts(createdAt, +id);
     counter++;
     this.generateTransactions(nextID, counter, limit);
-      return {
+    return {
       transactions: this.transactions,
       transactionsProducts: this.transactionsProducts
-      };
+    };
   }
 
   static generateTransactionsProducts(createdAt: Date, transactionId: number) {
@@ -215,7 +212,7 @@ export default class DataGenerator {
       if (tempSalesTP[id].products.length > 0) {
         formattedSalesTP[counter] = tempSalesTP[id];
         counter++;
-  }
+      }
     }
 
     // create new sale transaction and new sales tp.
