@@ -6,10 +6,9 @@ export const TablePagination = (props: {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const pageNumbers: number[] = [];
-  for (let i = 1; i <= props.numOfPages; i++) {
-    pageNumbers.push(i);
-  }
+  const pageNumbers = [...Array(props.numOfPages)].map(
+    (val, index) => index + 1
+  );
 
   return (
     <Pagination

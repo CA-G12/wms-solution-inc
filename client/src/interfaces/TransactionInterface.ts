@@ -1,4 +1,5 @@
 import { TransactionType } from './Enums';
+import { UserInterface } from './UserInterface';
 
 export default interface TransactionInterface {
   id: number;
@@ -8,4 +9,5 @@ export default interface TransactionInterface {
   productsCount: number;
   totalCost: number;
   username: string;
+  User?: UserInterface;
 }

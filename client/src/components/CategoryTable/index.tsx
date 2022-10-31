@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { TfiClose } from 'react-icons/tfi';
-import { HiOutlineEye } from 'react-icons/hi';
+import { FiEdit2 } from 'react-icons/fi';
 import { AxiosError } from 'axios';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import * as Category from '../../api/category';
@@ -40,7 +40,7 @@ export const CategoryTable = (props: {
       try {
         setIsPending(true);
 
-        const list = await Category.search({
+        const list = await Category.getCategories({
           name: props.search,
           limit: itemsPerPage,
           offset: itemsPerPage * (currentPage - 1)
@@ -61,9 +61,13 @@ export const CategoryTable = (props: {
     props.setIsSucceed(false);
   }, [currentPage, props.isSucceed, props.search]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [props.search]);
+
   const handleRemove = async (id: number) => {
     try {
-      await Category.remove(id);
+      await Category.deleteOneCategory(id);
 
       props.setIsSucceed(true);
     } catch (error: unknown) {
@@ -74,7 +78,7 @@ export const CategoryTable = (props: {
 
   return (
     <div className="data-table">
-      <Table responsive bordered primary rounded>
+      <Table responsive primary rounded>
         <thead>
           <tr className="head bg-blue text-white">
             <th>Category Name</th>
@@ -95,21 +99,23 @@ export const CategoryTable = (props: {
                 <tr key={category.id}>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
-                  <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
-                    <button
-                      onClick={e => {
-                        handleView(category.id, category.name);
-                      }}
-                    >
-                      <HiOutlineEye className="text-blue" /> View
-                    </button>
-                    <button
-                      onClick={e => {
-                        handleRemove(category.id);
-                      }}
-                    >
-                      <TfiClose className="text-danger" /> Remove
-                    </button>
+                  <td>
+                    <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
+                      <button
+                        onClick={e => {
+                          handleView(category.id, category.name);
+                        }}
+                      >
+                        <FiEdit2 className="text-blue" /> Edit
+                      </button>
+                      <button
+                        onClick={e => {
+                          handleRemove(category.id);
+                        }}
+                      >
+                        <TfiClose className="text-danger" /> Remove
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

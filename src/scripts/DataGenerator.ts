@@ -66,16 +66,17 @@ export default class DataGenerator {
       const transactionId = this.getRandomIndex(100);
       const isDuplicated: boolean = transProdsArr.some(
         (obj: TransactionProduct) =>
-          obj.productId === productId && obj.transactionId === transactionId
+          obj.ProductId === productId && obj.TransactionId === transactionId
       );
       !isDuplicated &&
         transProdsArr.push({
-          productId,
-          transactionId,
+          ProductId: productId,
+          TransactionId: transactionId,
           unitPrice: Number(faker.commerce.price()),
           quantity: Number((+faker.finance.amount(1, 1000)).toFixed()),
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          status: TransactionStatus.Pending
         });
     }
     return transProdsArr;

@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { TfiClose } from 'react-icons/tfi';
-import { HiOutlineEye } from 'react-icons/hi';
+import { FiEdit2 } from 'react-icons/fi';
 import { AxiosError } from 'axios';
 import { TablePagination } from '../TablePagination';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import TransactionInterface from '../../interfaces/TransactionInterface';
 import * as Transaction from '../../api/transaction';
-import * as DateFormatting from '../../helpers/DateFormatting';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 export const TransactionsTable = (props: {
   setTransaction: React.Dispatch<
@@ -26,13 +27,14 @@ export const TransactionsTable = (props: {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const [numOfPages, setNumOfPages] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsPending(true);
 
-        const list = await Transaction.search({
+        const list = await Transaction.getTransactions({
           type: props.type,
           search: props.search,
           limit: itemsPerPage,
@@ -54,9 +56,13 @@ export const TransactionsTable = (props: {
     props.setIsSucceed(false);
   }, [currentPage, props.isSucceed, props.search, props.type]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [props.search, props.type]);
+
   const handleRemove = async (id: number) => {
     try {
-      await Transaction.remove(id);
+      await Transaction.deleteOneTransaction(id);
       props.setIsSucceed(true);
     } catch (error: unknown) {
       const exception = error as AxiosError;
@@ -66,13 +72,14 @@ export const TransactionsTable = (props: {
 
   return (
     <div className="data-table">
-      <Table responsive bordered primary rounded>
+      <Table responsive primary rounded>
         <thead>
           <tr className="head bg-blue text-white">
+            <th>#</th>
             <th>Transaction Type</th>
             <th>Transaction Date</th>
             <th>Issued By</th>
-            <th>Products Count</th>
+            <th>Products</th>
             <th>Total Price</th>
             <th className="actions-th text-center">Action</th>
           </tr>
@@ -86,25 +93,32 @@ export const TransactionsTable = (props: {
             <div>No Transactions Found</div>
           ) : (
             transactions.map(transaction => {
-              console.log(transaction);
+              console.log(transaction.totalCost);
               return (
                 <tr key={transaction.id}>
+                  <td>{transaction.id}</td>
                   <td>{transaction.type}</td>
-                  <td>{DateFormatting.formatDate(transaction.createdAt)}</td>
+                  <td>{moment(transaction?.createdAt).format('DD/MM/YYYY')}</td>
                   <td>{transaction['username']}</td>
                   <td>{transaction.productsCount}</td>
-                  <td>${transaction.totalCost}</td>
-                  <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
-                    <button>
-                      <HiOutlineEye className="text-blue" /> View
-                    </button>
-                    <button
-                      onClick={e => {
-                        handleRemove(transaction.id);
-                      }}
-                    >
-                      <TfiClose className="text-danger" /> Remove
-                    </button>
+                  <td>${Number(transaction.totalCost).toFixed(2)}</td>
+                  <td>
+                    <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
+                      <button
+                        onClick={e => {
+                          navigate(`edit/${transaction.id}`);
+                        }}
+                      >
+                        <FiEdit2 className="text-blue" /> Edit
+                      </button>
+                      <button
+                        onClick={_e => {
+                          handleRemove(transaction.id);
+                        }}
+                      >
+                        <TfiClose className="text-danger" /> Remove
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

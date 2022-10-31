@@ -1,11 +1,65 @@
+import { TransactionType } from 'interfaces/TransactionInterface';
 import { Op } from 'sequelize';
 import { sequelize } from '../db/connection';
 import Transaction from '../models/TransactionModel';
+import { TransactionProduct as TransactionProductInterface } from '../interfaces/TransactionProductInterface';
 import TransactionProduct from '../models/TransactionProductModel';
 import User from '../models/UserModel';
+import GenericError from '../helpers/GenericError';
+import Product from '../models/ProductModel';
 
 export default class TransactionQuery {
-  static delete = async (id: string) => {
+  static createNewTransaction = async ({
+    type,
+    issuedBy,
+    transactionProducts
+  }: {
+    type: TransactionType;
+    issuedBy: number;
+    transactionProducts: TransactionProductInterface[];
+  }) => {
+    const transaction = await Transaction.create({ type });
+
+    const user = await User.findByPk(issuedBy);
+    if (!user) throw new GenericError('Not found', 400);
+
+    await user?.addTransaction(transaction.id);
+
+    transactionProducts.forEach(async transactionProduct => {
+      await transaction.createTransactionProduct(transactionProduct);
+    });
+    return transaction;
+  };
+
+  static updateOneTransaction = async ({
+    id,
+    type,
+    issuedBy,
+    transactionProducts
+  }: {
+    id: number;
+    type: TransactionType;
+    issuedBy: number;
+    transactionProducts: TransactionProductInterface[];
+  }) => {
+    let transaction = await Transaction.findByPk(id);
+    if (!transaction) throw new GenericError('Not found', 400);
+
+    transaction = await transaction?.update({ type });
+    if (!transaction) throw new GenericError('Not found', 400);
+
+    TransactionProduct.destroy({
+      where: { TransactionId: id }
+    });
+
+    transactionProducts.forEach(async transactionProduct => {
+      transaction &&
+        (await transaction.createTransactionProduct(transactionProduct));
+    });
+    return transaction;
+  };
+
+  static deleteOneTransaction = async (id: number) => {
     return Transaction.destroy({
       where: {
         id
@@ -13,7 +67,7 @@ export default class TransactionQuery {
     });
   };
 
-  static search = async ({
+  static getTransactions = async ({
     search,
     type,
     limit,
@@ -65,6 +119,7 @@ export default class TransactionQuery {
           duplicating: false
         }
       ],
+      order: [['createdAt', 'DESC']],
       group: [
         'Transaction.id',
         'type',
@@ -76,5 +131,29 @@ export default class TransactionQuery {
       limit,
       offset
     });
+  };
+
+  static getOneTransaction = async ({ id }: { id: number }) => {
+    const transaction = await Transaction.findByPk(id, {
+      include: {
+        model: User
+      }
+    });
+
+    if (!transaction) throw new GenericError('Not found', 400);
+
+    const transactionProducts = await TransactionProduct.findAll({
+      where: { TransactionId: id },
+      include: {
+        model: Product
+      }
+    });
+
+    if (!transactionProducts) throw new GenericError('Not found', 400);
+
+    return {
+      transaction,
+      transactionProducts
+    };
   };
 }

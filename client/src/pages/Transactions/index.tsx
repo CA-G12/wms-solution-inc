@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import TransactionInterface from '../../interfaces/TransactionInterface';
 import { TransactionsTable } from '../../components/TransactionsTable';
 import './style.css';
+import { PageContext } from '../../contexts/PageContext';
 
 const Transactions = () => {
+  const navigate = useNavigate();
+
+  const { setPages } = useContext(PageContext);
+
+  useEffect(() => {
+    setPages([{ title: 'Transactions', link: 'transactions' }]);
+  }, []);
+
   const { register, handleSubmit } = useForm();
   const [type, setType] = useState<string>('all');
 
@@ -25,7 +35,7 @@ const Transactions = () => {
       <header>
         <h3 className="h6 fw-bold mb-5">Transactions</h3>
         <div className="d-flex justify-content-between mb-3 align-items-center">
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className="flex-1">
             <div className="form-content d-flex gap-3">
               <div className="search-input">
                 <GoSearch />
@@ -36,7 +46,7 @@ const Transactions = () => {
                   placeholder="Search for user"
                 />
               </div>
-              <div>
+              <div className="right">
                 <ButtonGroup>
                   <Button
                     color="primary"
@@ -66,9 +76,16 @@ const Transactions = () => {
               </div>
             </div>
           </form>
-          <div className="right ms-auto">
+          <div className="right">
             <div>
-              <Button color="primary">Add Transaction</Button>
+              <Button
+                color="primary"
+                onClick={e => {
+                  navigate('add');
+                }}
+              >
+                Add Transaction
+              </Button>
             </div>
           </div>
         </div>
