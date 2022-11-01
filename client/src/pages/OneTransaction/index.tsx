@@ -25,7 +25,7 @@ import moment from 'moment';
 import axios, { AxiosError } from 'axios';
 import TransactionInterface from '../../interfaces/TransactionInterface';
 import './style.css';
-import { TransactionProduct as TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { TransactionProductsTable } from '../../components/TransactionProductsTable';
 import * as Transaction from '../../api/transaction';
 import ErrorHandler from '../../helpers/ErrorHandler';

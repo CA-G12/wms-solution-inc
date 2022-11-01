@@ -119,7 +119,7 @@ export default class TransactionQuery {
           duplicating: false
         }
       ],
-      order: [['createdAt', 'DESC']],
+      order: [['id', 'DESC']],
       group: [
         'Transaction.id',
         'type',

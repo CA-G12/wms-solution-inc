@@ -1,4 +1,4 @@
-import { TransactionProduct } from '../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../interfaces/TransactionProductInterface';
 import axios from './axios';
 
 export const createNewTransaction = ({
@@ -8,7 +8,7 @@ export const createNewTransaction = ({
 }: {
   type: string;
   issuedBy: number;
-  transactionProducts: TransactionProduct[];
+  transactionProducts: TransactionProductInterface[];
 }) => {
   return axios.post(`transactions`, { type, issuedBy, transactionProducts });
 };
@@ -22,7 +22,7 @@ export const updateOneTransaction = ({
   id: number;
   type: string;
   issuedBy: number;
-  transactionProducts: TransactionProduct[];
+  transactionProducts: TransactionProductInterface[];
 }) => {
   return axios.put(`transactions/${id}`, {
     type,

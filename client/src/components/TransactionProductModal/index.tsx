@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { TransactionProductData } from '../../interfaces/FormData';
 import ErrorHandler from '../../helpers/ErrorHandler';
-import { TransactionProduct as TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import { updateTransactionProducts } from '../../helpers/transactionProducts';
 import { TransactionStatus } from '../../interfaces/Enums';
 
@@ -43,7 +43,7 @@ export default function TransactionProductModal(props: {
   const onSubmit = async (data: TransactionProductData) => {
     try {
       toggle();
-      console.log(data);
+
       if (props.transactionProduct) {
         props.setCurrentTransactionProducts(
           updateTransactionProducts({

@@ -1,4 +1,4 @@
-export default interface TransactionInterface {
+export default interface ProductInterface {
   id?: number;
   title: string;
   description: string;

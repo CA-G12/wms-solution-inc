@@ -93,7 +93,6 @@ export const TransactionsTable = (props: {
             <div>No Transactions Found</div>
           ) : (
             transactions.map(transaction => {
-              console.log(transaction.totalCost);
               return (
                 <tr key={transaction.id}>
                   <td>{transaction.id}</td>

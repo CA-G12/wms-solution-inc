@@ -42,7 +42,6 @@ export default class CategoryQuery {
     limit: number;
     offset: number;
   }) => {
-    console.log(name, offset, limit);
     return Category.findAndCountAll({
       where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), {
         [Op.like]: `%${name.toLowerCase()}%`
@@ -63,7 +62,7 @@ export default class CategoryQuery {
           duplicating: false
         }
       ],
-      order: [['createdAt', 'DESC']],
+      order: [['id', 'DESC']],
       group: ['name', 'Category.id', 'Category.createdAt'],
       raw: true,
       limit,

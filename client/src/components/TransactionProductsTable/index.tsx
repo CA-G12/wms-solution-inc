@@ -3,12 +3,13 @@ import { Button, Table } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { TfiClose } from 'react-icons/tfi';
 import { FiEdit2 } from 'react-icons/fi';
-import { TransactionProduct as TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import {
   updateTransactionProducts,
   deleteTransactionProducts
 } from '../../helpers/transactionProducts';
 import './style.css';
+import { calculateTotalPrice } from '../../helpers/NumberHelpers';
 
 export const TransactionProductsTable = (props: {
   transactionId: number;
@@ -32,26 +33,13 @@ export const TransactionProductsTable = (props: {
     quantity: number,
     transactionProducts: TransactionProductInterface[]
   ) => {
-    console.log(ProductId, quantity);
     const updated = updateTransactionProducts({
       currentTransactionProducts: transactionProducts,
       ProductId: ProductId,
       quantity: quantity
     });
-    props.setTransactionProducts(updated);
-  };
 
-  const calculateTotalPrice = ({
-    price,
-    quantity,
-    discount
-  }: {
-    price: number;
-    quantity: number;
-    discount: number;
-  }) => {
-    const total = price * quantity;
-    return total - total * discount;
+    props.setTransactionProducts(updated);
   };
 
   const handleEdit = (transactionProduct: TransactionProductInterface) => {

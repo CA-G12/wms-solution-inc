@@ -81,6 +81,7 @@ export const CategoryTable = (props: {
       <Table responsive primary rounded>
         <thead>
           <tr className="head bg-blue text-white">
+            <th>#</th>
             <th>Category Name</th>
             <th>Product Count</th>
             <th className="actions-th text-center">Action</th>
@@ -97,6 +98,7 @@ export const CategoryTable = (props: {
             categories.map(category => {
               return (
                 <tr key={category.id}>
+                  <td className="category-id">{category.id}</td>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
                   <td>

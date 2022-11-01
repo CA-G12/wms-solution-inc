@@ -1,6 +1,6 @@
 import { TransactionStatus } from '../interfaces/Enums';
 import ProductInterface from '../interfaces/ProductInterface';
-import { TransactionProduct as TransactionProductInterface } from '../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../interfaces/TransactionProductInterface';
 
 export const updateTransactionProducts = ({
   price,

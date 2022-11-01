@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { AxiosError } from 'axios';
 import TransactionInterface from '../../interfaces/TransactionInterface';
-import { TransactionProduct as TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
+import { TransactionProductInterface } from '../../interfaces/TransactionProductInterface';
 import * as Transaction from '../../api/transaction';
 import ErrorHandler from '../../helpers/ErrorHandler';
 import { capitalizeFirstLetter } from '../../helpers/StringHelpers';
 import { PageContext } from '../../contexts/PageContext';
-import './style.css';
 import { calculateTotalPrice } from '../../helpers/NumberHelpers';
+import './style.css';
 
 const Invoice = () => {
   const { id } = useParams();
