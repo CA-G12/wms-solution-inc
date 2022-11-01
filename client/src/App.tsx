@@ -1,11 +1,11 @@
-import { useRoutes } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './assets/styles/custom.min.css';
 import './main.css';
-import themeRoutes from './routes';
+import Routes from './routes';
 
 function App() {
-  const routing = useRoutes(themeRoutes);
-  return <>{routing}</>;
+  const routing = createBrowserRouter(Routes.themeRoutes);
+  return <RouterProvider router={routing} />;
 }
 
 export default App;
