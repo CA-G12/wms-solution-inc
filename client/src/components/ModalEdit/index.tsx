@@ -83,12 +83,15 @@ export const ModalEdit = ({
                   render={({ field }) => (
                     <Input
                       {...field}
-                      // placeholder={product ? product.discount.toString() : ''}
                       type="number"
                       min={0}
+                      max={100}
                       required
                     />
                   )}
+                  defaultValue={
+                    product ? Number((product.discount * 100).toFixed(2)) : 0.0
+                  }
                   name="discount"
                   control={control}
                 />
@@ -114,12 +117,12 @@ export const ModalEdit = ({
               render={({ field }) => (
                 <Input
                   {...field}
-                  // placeholder={product ? product.createdAt.toString() : ''}
-                  type="date"
+                  type="text"
+                  defaultValue={product ? product.icon : ''}
                   required
                 />
               )}
-              name="createdAt"
+              name="icon"
               control={control}
             />
           </FormGroup>

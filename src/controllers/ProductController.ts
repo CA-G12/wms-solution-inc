@@ -42,10 +42,12 @@ export default class ProductController {
     next: NextFunction
   ) => {
     try {
+      const { limit, offset } = req.query;
       const products = await sequelize.query(
         `select p.id,
                 p.price,
                 p.title,
+                p.discount,
                 p.icon,
                 p.description,
                 coalesce(
@@ -68,12 +70,19 @@ export default class ProductController {
                     ),
                     0
                 ) as "inStock"
-            from "Products" as p;`,
+            from "Products" as p LIMIT $1 OFFSET $2;`,
+        {
+          bind: [limit, offset],
+          type: QueryTypes.SELECT
+        }
+      );
+      const totalCount = await sequelize.query(
+        `SELECT COUNT(*) FROM "Products"`,
         {
           type: QueryTypes.SELECT
         }
       );
-      res.json(products);
+      res.json({ products, totalCount });
     } catch (error) {
       next(error);
     }
@@ -87,10 +96,7 @@ export default class ProductController {
     try {
       const { id } = req.params;
       await ProductQuery.deleteProduct(Number(id));
-      res.status(202).json({
-        status: 204,
-        message: 'Success'
-      });
+      res.sendStatus(204);
     } catch (error) {
       next(error);
     }
