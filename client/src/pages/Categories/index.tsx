@@ -12,8 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Categories = () => {
   const { register, handleSubmit } = useForm<CategorySearch>();
-
   const [search, setSearch] = useState<string>('');
+
   const onSubmit = handleSubmit(data => {
     setSearch(data.search);
   });
@@ -45,7 +45,7 @@ const Categories = () => {
           </form>
           <div className="right ms-auto">
             <div>
-              <Button color="primary" onClick={e => handleAddClick()}>
+              <Button color="primary" onClick={_e => handleAddClick()}>
                 Add Category
               </Button>
             </div>

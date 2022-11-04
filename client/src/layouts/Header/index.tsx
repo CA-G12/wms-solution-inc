@@ -1,7 +1,6 @@
-import '../style.css';
 import {
-  NavbarText,
   Dropdown,
+  NavbarText,
   DropdownToggle,
   DropdownMenu,
   Button,
@@ -11,25 +10,26 @@ import {
 import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { redirect } from 'react-router-dom';
 import { authApi } from '../../api';
-import { Navigate, redirect } from 'react-router-dom';
-
 import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
+import '../style.css';
 
 const logout = async (dispatch: any) => {
   try {
-    const user = await authApi.logOut();
+    await authApi.logOut();
 
     dispatch({
       type: 'LOGOUT'
     });
+
     redirect('/');
   } catch (error: unknown) {}
 };
 
 const Header = () => {
-  const { reset, register, handleSubmit, setValue } = useForm<any>();
+  const { handleSubmit } = useForm<any>();
 
   const { auth, dispatch } = useAuth();
 
@@ -107,15 +107,7 @@ const Header = () => {
                           logout(dispatch);
                         })}
                       >
-                        <Button color="danger">
-                          {/* <NavLink
-                            to="/login"
-                            className="text-white d-block text-decoration-none"
-                          >
-                            Logout
-                          </NavLink> */}
-                          Logout
-                        </Button>{' '}
+                        <Button color="danger">Logout</Button>{' '}
                       </form>
                     </div>
                   </DropdownMenu>

@@ -104,7 +104,7 @@ export const CategoryTable = (props: {
                       <HiOutlineEye className="text-blue" /> View
                     </button>
                     <button
-                      onClick={e => {
+                      onClick={_e => {
                         handleRemove(category.id);
                       }}
                     >
