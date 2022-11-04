@@ -11,7 +11,6 @@ import ThemeLayout from '../ThemeLayout';
 import BlankLayout from '../blankLayout';
 import About from '../pages/About';
 import { PrivateRoute } from './PrivateRoute';
-import { request } from 'express';
 
 const themeRoutes = [
   {

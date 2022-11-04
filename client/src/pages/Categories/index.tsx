@@ -1,13 +1,13 @@
 import { Button } from 'reactstrap';
-import './style.css';
 import { useForm } from 'react-hook-form';
 import { GoSearch } from 'react-icons/go';
-import { CategoryTable } from '../../components/CategoryTable';
 import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import { CategorySearch } from '../../interfaces/FormData';
+import { CategoryTable } from '../../components/CategoryTable';
 import CategoryInterface from '../../interfaces/CategoryInterface';
 import CategoryModal from '../../components/CategoryModal';
-import { CategorySearch } from '../../interfaces/FormData';
-import { ToastContainer } from 'react-toastify';
+import './style.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Categories = () => {

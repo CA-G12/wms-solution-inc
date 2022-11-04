@@ -1,8 +1,6 @@
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 import logo from '../../assets/images/wms_logo.png';
-
-import { useState, useContext } from 'react';
 
 const About = () => {
   const navigate = useNavigate();

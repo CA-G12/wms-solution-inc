@@ -25,7 +25,6 @@ export const TablePagination = (props: {
         />
       </PaginationItem>
       {pageNumbers.map(pageNumber => {
-        console.log(pageNumber);
         return (
           <PaginationItem
             key={pageNumber}
