@@ -11,6 +11,8 @@ import ThemeLayout from '../ThemeLayout';
 import BlankLayout from '../blankLayout';
 import About from '../pages/About';
 import { PrivateRoute } from './PrivateRoute';
+import OneTransaction from '../pages/OneTransaction';
+import Invoice from '../pages/Invoice';
 
 const themeRoutes = [
   {
@@ -31,7 +33,19 @@ const themeRoutes = [
           { path: '/user/:username/profile', element: <Profile /> },
           { path: '/products', element: <Products /> },
           { path: '/categories', element: <Categories /> },
-          { path: '/transactions', element: <Transactions /> }
+          { path: '/transactions', element: <Transactions /> },
+          {
+            path: '/transactions/edit/:id',
+            element: <OneTransaction operation={'edit'} />
+          },
+          {
+            path: '/transactions/edit/:id/invoice',
+            element: <Invoice />
+          },
+          {
+            path: '/transactions/add/',
+            element: <OneTransaction operation={'add'} />
+          }
         ]
       },
       {
@@ -45,7 +59,8 @@ const themeRoutes = [
         ]
       }
     ]
-  }
+  },
+  { path: '*', element: <Error /> }
 ];
 
 export default { themeRoutes };

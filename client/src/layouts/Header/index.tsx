@@ -7,10 +7,10 @@ import {
   Breadcrumb,
   BreadcrumbItem
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link, redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { redirect } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { PageContext } from '../../contexts/PageContext';
 import { authApi } from '../../api';
 import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
@@ -31,6 +31,7 @@ const logout = async (dispatch?: dispatch) => {
 
 const Header = () => {
   const { handleSubmit } = useForm<any>();
+  const { pages } = useContext(PageContext);
 
   const { auth, dispatch } = useAuth();
 
@@ -71,6 +72,24 @@ const Header = () => {
                   About Us
                 </NavLink>
               </BreadcrumbItem>
+              {pages.map((item, index, arr) =>
+                index < arr.length - 1 ? (
+                  <BreadcrumbItem
+                    key={item.link}
+                    className="text-decoration-none"
+                  >
+                    <Link to={item.link}>{item.title}</Link>
+                  </BreadcrumbItem>
+                ) : (
+                  <BreadcrumbItem
+                    key={item.link}
+                    className="text-decoration-none"
+                    active
+                  >
+                    {item.title}
+                  </BreadcrumbItem>
+                )
+              )}
             </Breadcrumb>
           )}
           {auth?.loggedIn ? (
