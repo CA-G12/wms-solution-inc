@@ -97,7 +97,7 @@ export const CategoryTable = (props: {
                   <td className="product-count">{category?.productsCount}</td>
                   <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                     <button
-                      onClick={e => {
+                      onClick={_e => {
                         handleView(category.id, category.name);
                       }}
                     >

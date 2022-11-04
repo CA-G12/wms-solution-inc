@@ -14,13 +14,14 @@ import { redirect } from 'react-router-dom';
 import { authApi } from '../../api';
 import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
+import { dispatch } from '../../interfaces/authprovider';
 import '../style.css';
 
-const logout = async (dispatch: any) => {
+const logout = async (dispatch?: dispatch) => {
   try {
     await authApi.logOut();
 
-    dispatch({
+    dispatch?.({
       type: 'LOGOUT'
     });
 

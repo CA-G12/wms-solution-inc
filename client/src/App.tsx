@@ -15,14 +15,14 @@ function App() {
       try {
         const user = await authApi.checkToken();
 
-        dispatch({
+        dispatch?.({
           type: 'INITIALISE',
           payload: { user, loggedIn: true }
         });
       } catch (err) {
-        dispatch({
+        dispatch?.({
           type: 'INITIALISE',
-          payload: { user: null, loggedIn: false }
+          payload: { user: undefined, loggedIn: false }
         });
       }
     })();

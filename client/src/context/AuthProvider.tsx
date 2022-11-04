@@ -1,6 +1,5 @@
 import { createContext, useReducer } from 'react';
-
-const AuthContext = createContext<any>({});
+import { obj, action } from '../interfaces/authprovider';
 
 const INIT_STATE = {
   auth: {
@@ -9,30 +8,27 @@ const INIT_STATE = {
     checkedToken: false
   }
 };
+const AuthContext = createContext<obj>(INIT_STATE);
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: any, action: action) => {
   switch (action.type) {
     case 'INITIALISE': {
-      const { loggedIn, user } = action.payload;
-
       return {
         ...state,
         auth: {
-          loggedIn: loggedIn,
-          user,
+          loggedIn: action.payload?.loggedIn,
+          user: action.payload?.user,
           checkedToken: true
         }
       };
     }
 
     case 'LOGIN': {
-      const { user } = action.payload;
-
       return {
         ...state,
         auth: {
           loggedIn: true,
-          user,
+          user: action.payload?.user,
           checkedToken: true
         }
       };

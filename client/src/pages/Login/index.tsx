@@ -26,7 +26,7 @@ function AuthPage() {
     try {
       const user = await authApi.signInApi(data);
 
-      dispatch({
+      dispatch?.({
         type: 'LOGIN',
         payload: { user }
       });
