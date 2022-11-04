@@ -34,54 +34,6 @@ const Products = [
     price: 14,
     discount: 9,
     categoryId: 2
-  },
-  {
-    title: 'product1',
-    description: 'desc1',
-    icon: '*******',
-    price: 6,
-    discount: 12,
-    categoryId: 2
-  },
-  {
-    title: 'product2',
-    description: 'desc2',
-    icon: '////////',
-    price: 20,
-    discount: 3,
-    categoryId: 2
-  },
-  {
-    title: 'product3',
-    description: 'desc3',
-    icon: '----------',
-    price: 14,
-    discount: 9,
-    categoryId: 1
-  },
-  {
-    title: 'product1',
-    description: 'desc1',
-    icon: '*******',
-    price: 6,
-    discount: 12,
-    categoryId: 1
-  },
-  {
-    title: 'product2',
-    description: 'desc2',
-    icon: '////////',
-    price: 20,
-    discount: 3,
-    categoryId: 3
-  },
-  {
-    title: 'product3',
-    description: 'desc3',
-    icon: '----------',
-    price: 14,
-    discount: 9,
-    categoryId: 3
   }
 ];
 
@@ -194,7 +146,7 @@ const populateDB = async (): Promise<void> => {
   await User.bulkCreate([
     {
       username: 'admin',
-      password: '123456',
+      password: '$2a$12$R34l5gjz4FICkMyJtdlPouHVhprTio7jh8J3E7v3g/9h9D69UrPVG', // @#12Aaerdf
       email: 'admin@homtail.com',
       role: Role.admin
     }
