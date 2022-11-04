@@ -9,12 +9,29 @@ import {
   BreadcrumbItem
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { authApi } from '../../api';
+import { Navigate, redirect } from 'react-router-dom';
+
 import Logo from '../../assets/images/wms_logo.png';
 import useAuth from '../../hooks/useAuth';
 
+const logout = async (dispatch: any) => {
+  try {
+    const user = await authApi.logOut();
+
+    dispatch({
+      type: 'LOGOUT'
+    });
+    redirect('/');
+  } catch (error: unknown) {}
+};
+
 const Header = () => {
-  const { auth } = useAuth();
+  const { reset, register, handleSubmit, setValue } = useForm<any>();
+
+  const { auth, dispatch } = useAuth();
 
   const { user } = auth;
 
@@ -85,14 +102,21 @@ const Header = () => {
                         </div>
                       </div>
                       <hr />
-                      <Button color="danger">
-                        <NavLink
-                          to="/login"
-                          className="text-white d-block text-decoration-none"
-                        >
+                      <form
+                        onSubmit={handleSubmit(() => {
+                          logout(dispatch);
+                        })}
+                      >
+                        <Button color="danger">
+                          {/* <NavLink
+                            to="/login"
+                            className="text-white d-block text-decoration-none"
+                          >
+                            Logout
+                          </NavLink> */}
                           Logout
-                        </NavLink>
-                      </Button>{' '}
+                        </Button>{' '}
+                      </form>
                     </div>
                   </DropdownMenu>
                 </Dropdown>

@@ -24,16 +24,13 @@ function AuthPage() {
 
   const signIn = async (data: Credential) => {
     try {
-      const response = await authApi.signInApi(data);
-      if (response.status === 200) {
-        const { user } = response.data;
+      const user = await authApi.signInApi(data);
 
-        dispatch({
-          type: 'LOGIN',
-          payload: { user }
-        });
-        redirect('/');
-      }
+      dispatch({
+        type: 'LOGIN',
+        payload: { user }
+      });
+      redirect('/');
     } catch (error: unknown) {
       const exception = error as AxiosError;
       if (exception.response) {

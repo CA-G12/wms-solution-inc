@@ -1,6 +1,5 @@
 import { Navigate } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
-import { Outlet } from 'react-router-dom';
 import Login from '../pages/Login';
 import Categories from '../pages/Categories';
 import Products from '../pages/Products';
@@ -11,36 +10,11 @@ import Error from '../pages/Errors';
 import ThemeLayout from '../ThemeLayout';
 import BlankLayout from '../blankLayout';
 import About from '../pages/About';
-import useAuth from '../hooks/useAuth';
-import { authApi } from './../api';
 import { PrivateRoute } from './PrivateRoute';
-
-const init = async () => {
-  const { dispatch } = useAuth();
-  try {
-    const res = await authApi.checkToken();
-    if (res.status === 200) {
-      const { user: id, email, username, role } = res.data;
-      dispatch({
-        type: 'INITIALISE',
-        payload: { user: { id, email, username, role } }
-      });
-    }
-  } catch (err) {}
-};
-
-const Wrapper = () => {
-  init();
-  return (
-    <>
-      <Outlet />
-    </>
-  );
-};
+import { request } from 'express';
 
 const themeRoutes = [
   {
-    element: <Wrapper />,
     children: [
       {
         path: '/',

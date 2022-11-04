@@ -1,11 +1,12 @@
-import { createContext, useState, useReducer, useContext } from 'react';
+import { createContext, useReducer } from 'react';
 
 const AuthContext = createContext<any>({});
 
 const INIT_STATE = {
   auth: {
     loggedIn: false,
-    user: null
+    user: null,
+    checkedToken: false
   }
 };
 
@@ -17,8 +18,9 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         auth: {
-          loggedIn: true,
-          user
+          loggedIn: loggedIn,
+          user,
+          checkedToken: true
         }
       };
     }
@@ -30,8 +32,8 @@ const reducer = (state: any, action: any) => {
         ...state,
         auth: {
           loggedIn: true,
-
-          user
+          user,
+          checkedToken: true
         }
       };
     }
@@ -39,8 +41,11 @@ const reducer = (state: any, action: any) => {
     case 'LOGOUT': {
       return {
         ...state,
-        loggedIn: false,
-        user: null
+        auth: {
+          loggedIn: false,
+          user: null,
+          checkedToken: true
+        }
       };
     }
     default: {
