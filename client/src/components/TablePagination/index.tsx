@@ -42,13 +42,8 @@ export const TablePagination = (props: {
       <PaginationItem>
         <PaginationLink
           last
-<<<<<<< HEAD
           onClick={_e => {
-            props.setCurrentPage(props.pagesCount);
-=======
-          onClick={e => {
             props.setCurrentPage(props.numOfPages);
->>>>>>> main
           }}
         />
       </PaginationItem>

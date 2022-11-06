@@ -101,41 +101,23 @@ export const CategoryTable = (props: {
                   <td className="category-id">{category.id}</td>
                   <td className="category-name">{category.name}</td>
                   <td className="product-count">{category?.productsCount}</td>
-<<<<<<< HEAD
-                  <td className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
-                    <button
-                      onClick={_e => {
-                        handleView(category.id, category.name);
-                      }}
-                    >
-                      <HiOutlineEye className="text-blue" /> View
-                    </button>
-                    <button
-                      onClick={_e => {
-                        handleRemove(category.id);
-                      }}
-                    >
-                      <TfiClose className="text-danger" /> Remove
-                    </button>
-=======
                   <td>
                     <div className="actions-td d-flex gap-2 align-items-center justify-content-center pe-4">
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           handleView(category.id, category.name);
                         }}
                       >
                         <FiEdit2 className="text-blue" /> Edit
                       </button>
                       <button
-                        onClick={e => {
+                        onClick={_e => {
                           handleRemove(category.id);
                         }}
                       >
                         <TfiClose className="text-danger" /> Remove
                       </button>
                     </div>
->>>>>>> main
                   </td>
                 </tr>
               );
