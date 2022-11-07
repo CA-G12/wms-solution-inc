@@ -6,6 +6,7 @@
     display: flex;
     position: relative;
 }
+
 thead{
     background-color: var(--primary);
 }
@@ -14,11 +15,16 @@ th{
     text-align: center;
     color: white;
 }
+._search-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 ._search-box{
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    width: 70%;
+    width: 40%;
     border: 1px solid ;
     border-radius: 8px;
     background-color: white;

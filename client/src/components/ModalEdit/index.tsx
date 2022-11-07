@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Row
 } from 'reactstrap';
-import { Product } from '../../interfaces/ProductInterface';
+import { ProductInterface } from '../../interfaces/ProductInterface';
 import './styles.css';
 
 export const ModalEdit = ({
@@ -21,14 +21,14 @@ export const ModalEdit = ({
   update,
   modal
 }: {
-  product: Product;
+  product: ProductInterface;
   startEditMode: CallableFunction;
   update: CallableFunction;
   modal: boolean;
 }) => {
-  const { control, handleSubmit } = useForm<Product>();
+  const { control, handleSubmit } = useForm<ProductInterface>();
 
-  const onSubmit: SubmitHandler<Product> = updatedProduct =>
+  const onSubmit: SubmitHandler<ProductInterface> = updatedProduct =>
     update(product.id, updatedProduct);
 
   return (

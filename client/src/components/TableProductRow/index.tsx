@@ -1,6 +1,6 @@
 import { HiOutlineEye } from 'react-icons/hi';
 import { TfiClose } from 'react-icons/tfi';
-import { Product } from '../../interfaces/ProductInterface';
+import { ProductInterface } from '../../interfaces/ProductInterface';
 import './styles.css';
 
 export const TableProductRow = ({
@@ -8,7 +8,7 @@ export const TableProductRow = ({
   startEditMode,
   deleteProduct
 }: {
-  product: Product;
+  product: ProductInterface;
   startEditMode: CallableFunction;
   deleteProduct: CallableFunction;
 }) => {

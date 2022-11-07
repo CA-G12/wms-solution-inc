@@ -1,11 +1,12 @@
-export interface Product {
-  id?: string;
+export interface ProductInterface {
+  id?: number;
   title: string;
   price: number;
   icon: string;
   discount: number;
-  inStock: number;
+  inStock?: number;
   createdAt: number;
+  categoryId: number;
   actions: {
     open: void;
     edit: void;
