@@ -18,7 +18,7 @@ export const TablePagination = (props: {
       <PaginationItem>
         <PaginationLink
           first
-          onClick={e => {
+          onClick={_e => {
             props.setCurrentPage(1);
           }}
         />
@@ -30,7 +30,7 @@ export const TablePagination = (props: {
             className={pageNumber == props.currentPage ? 'active' : ''}
           >
             <PaginationLink
-              onClick={e => {
+              onClick={_e => {
                 props.setCurrentPage(pageNumber);
               }}
             >
@@ -42,7 +42,7 @@ export const TablePagination = (props: {
       <PaginationItem>
         <PaginationLink
           last
-          onClick={e => {
+          onClick={_e => {
             props.setCurrentPage(props.numOfPages);
           }}
         />
